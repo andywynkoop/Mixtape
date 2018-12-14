@@ -1,0 +1,21 @@
+* {
+  color: black;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  font-family: 'Raleway', sans-serif;
+}
+
+input:focus, button:focus {
+  outline: none;
+}
+
+li, ul {
+  list-style: none;
+  margin: 0;
+}
+
+button, a {
+  cursor: pointer;
+}
