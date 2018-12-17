@@ -1,14 +1,24 @@
 import React from 'react-lite';
+import { connect } from 'react-redux-lite';
+import { CHANGE_MENU } from '../../../actions';
 
-const Nav = () => 
+const Nav = ({ select }) => 
   <nav className="main-nav">
     <ul>
-      <li>Playlists</li>
-      <li>Songs</li>
-      <li>Albums</li>
-      <li>Artists</li>
+      <li onClick={() => select('playlists')}>Playlists</li>
+      <li onClick={() => select('songs')}>Songs</li>
+      <li onClick={() => select('albums')}>Albums</li>
+      <li onClick={() => select('artists')}>Artists</li>
     </ul>
     <button className="new-playlist">New Playlist</button>
   </nav>;
 
-export default Nav;
+const mstp = state => ({
+  menu: state.ui.menu
+});
+
+const mdtp = dispatch => ({
+  select: menu => dispatch({ type: CHANGE_MENU, menu})
+});
+
+export default connect(mstp, mdtp)(Nav);

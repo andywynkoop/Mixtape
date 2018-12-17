@@ -16,7 +16,7 @@
 # Ignore uploaded files in development
 /storage/*
 !/storage/.keep
-
+apiKey.js
 /node_modules
 /yarn-error.log
 

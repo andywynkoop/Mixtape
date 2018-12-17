@@ -10,7 +10,7 @@ const mstp = state => ({
 
 const mdtp = dispatch => ({
   submit: user => dispatch(login(user)),
-  demo: () => dispatch(login({ email: "Andy5", password: "password" })),
+  demo: () => dispatch(login({ email: "Andy5@email.com", password: "password" })),
   clear: () => dispatch(clear())
 });
 

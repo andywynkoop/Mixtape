@@ -2,6 +2,11 @@ export const RECEIVE_CURRENT_USER = "RECEIVE_USER";
 export const REMOVE_CURRENT_USER = "REMOVE_CURRENT_USER";
 export const RECEIVE_SESSION_ERRORS = "RECEIVE_SESSION_ERRORS";
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
+export const RECEIVE_SONGS = "RECEIVE_SONGS";
+export const CHANGE_MENU = "CHANGE_MENU";
+export const SELECT_SONG = "SELECT_SONG";
+export const PLAY = "PLAY";
+export const PAUSE = "PAUSE";
 
 export const signup = user => dispatch => 
   $.ajax({ 
@@ -32,3 +37,40 @@ export const logout = () => dispatch =>
   );
 
 export const clear = () => ({ type: CLEAR_ERRORS });
+
+export const fetchSongs = (query = "") => dispatch => 
+  $.ajax({
+    method: 'get',
+    url: `/api/songs?query=${query}`
+  }).then(payload => dispatch({ type: RECEIVE_SONGS, payload }));
+
+export const selectSong = (songId, queue) => ({
+  type: SELECT_SONG,
+  songId,
+  queue
+});
+
+export const play = () => ({ type: PLAY });
+export const pause = () => ({ type: PAUSE });
+
+export const seekLeft = () => (dispatch, getState) => {
+  const _queue = getState().ui.queue;
+  const queue = [..._queue];
+  const prevSong = queue.pop();
+  queue.unshift(prevSong);
+  dispatch(selectSong(queue[0], queue));
+}
+
+export const seekRight = () => (dispatch, getState) => {
+  const _queue = getState().ui.queue;
+  const queue = [..._queue];
+  const nextSong = queue.shift();
+  queue.push(nextSong);
+  dispatch(selectSong(queue[0], queue));
+}
+
+export const playFirst = () => (dispatch, getState) => {
+  const _queue = getState().ui.queue;
+  const queue = [..._queue];
+  dispatch(selectSong(queue[0], queue));
+}

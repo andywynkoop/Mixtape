@@ -7,8 +7,8 @@ import { HashRouter, Route } from 'react-router-lite';
 export default () => 
   <HashRouter>
     <div>
-      <Route path="/login" component={Login} />
-      <Route path="/signup" component={SignUp} />
+      <Route exact path="/login" component={Login} />
+      <Route exact path="/signup" component={SignUp} />
       <Route path="/browse" component={Browse} />
       <Route exact path="/" component={Splash} />
     </div>

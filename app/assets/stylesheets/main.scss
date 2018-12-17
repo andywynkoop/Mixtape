@@ -148,6 +148,47 @@ $purple2: #5d0391;
     -webkit-filter: hue-rotate(90deg);
     filter: hue-rotate(90deg);
   }
+
+  .song {
+    color: white;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+  }
+
+  .song > div {
+    display: flex;
+  }
+
+  .song-icon-container {
+    height: 20px;
+    width: 16px;
+    margin-right: 10px;
+  }
+
+  .song .fa-play {
+    display: none;
+    font-size: 12px;
+    border-radius: 100%;
+    margin-top: 4px;
+  }
+
+  .song span {
+    display: block;
+  }
+
+  .song:hover {
+    background: #5d039183;
+  }
+
+  .song:hover .fa-play {
+    display: block;
+  }
+
+  .song:hover span {
+    display: none;
+  }
 }
 
 .sidebar {
@@ -174,6 +215,30 @@ $purple2: #5d0391;
   bottom: 0;
   width: 100%;
   background-color: $grey;
+  padding-top: 20px;
+
+  .player-buttons {
+    margin: auto;
+    text-align: center;
+
+    .back, .forward {
+      height: 30px;
+      width: 30px;
+      border: none;
+      color: white;
+      font-size: 18px;
+    }
+    .play {
+      height: 50px;
+      width: 50px;
+      padding-left: 2px;
+      margin: 0px 10px;
+      color: white;
+      border: solid 1px white;
+      border-radius: 100%;
+      font-size: 18px;
+    }
+  }
 }
 
 
@@ -189,7 +254,7 @@ $purple2: #5d0391;
   right: 0;
   height: unquote("-webkit-calc(100vh - 90px)");
   width: unquote("-webkit-calc(100vw - 200px)");
-  padding: 40px;
+  padding: 25px;
 
   .main-nav {
     height: 60px;
@@ -203,9 +268,14 @@ $purple2: #5d0391;
       width: 300px;
 
       li {
-        color: white;
+        color: #ddd;
         font-size: 12px;
         text-transform: uppercase;
+        cursor: pointer;
+      }
+
+      li:hover {
+        color:#fff;
       }
     }
 
@@ -213,9 +283,9 @@ $purple2: #5d0391;
       position: absolute;
       right: 0;
       top: -10px;
-      padding: 10px;
+      padding: 10px 15px;
       background-color: $purple;
-      font-size: 12px;
+      font-size: 11px;
       text-transform: uppercase;
     }
     .new-playlist:hover {

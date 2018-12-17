@@ -16,7 +16,7 @@ const Nav = ({ demo }) =>
   </nav>;
 
 const mdtp = dispatch => ({
-  demo: () => dispatch(login({ email: "Andy5", password: "password" }))
-})
+  demo: () => dispatch(login({ email: "Andy5@email.com", password: "password" }))
+});
 
 export default connect(null, mdtp)(Nav);

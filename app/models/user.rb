@@ -4,6 +4,11 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 6, allow_nil: true }
   attr_reader :password
 
+  has_many :playlists, 
+    foreign_key: :creator_id,
+    class_name: :Playlist,
+    dependent: :destroy
+
   before_validation :ensure_session_token
 
   def password=(password)
