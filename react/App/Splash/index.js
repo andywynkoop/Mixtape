@@ -4,9 +4,14 @@ import { Link } from 'react-router-lite';
 import { connect } from 'react-redux-lite';
 
 class Splash extends Component {
+  componentDidMount() {
+    if (this.props.loggedIn) {
+      this.props.history.push('/browse');
+    }
+  }
   componentDidUpdate() {
     if (this.props.loggedIn) {
-      window.location.replace('/#/browse');
+      this.props.history.push('/browse');
     }
   }
 

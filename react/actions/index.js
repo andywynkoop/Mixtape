@@ -7,6 +7,7 @@ export const CHANGE_MENU = "CHANGE_MENU";
 export const SELECT_SONG = "SELECT_SONG";
 export const PLAY = "PLAY";
 export const PAUSE = "PAUSE";
+export const RECEIVE_ALBUMS = "RECEIVE_ALBUMS";
 
 export const signup = user => dispatch => 
   $.ajax({ 
@@ -74,3 +75,23 @@ export const playFirst = () => (dispatch, getState) => {
   const queue = [..._queue];
   dispatch(selectSong(queue[0], queue));
 }
+
+export const fetchAlbums = () => dispatch =>
+  $.ajax({
+    method: 'get',
+    url: '/api/albums'
+  }).then(
+    albums => dispatch({ type: RECEIVE_ALBUMS, albums })
+  );
+
+export const playAlbum = (id, cb) => dispatch => 
+  $.ajax({
+    method: 'get',
+    url: `/api/albums/${id}`,
+  }).then(
+    payload => dispatch({ type: RECEIVE_SONGS, payload })
+  ).then(
+    () => {
+      if (cb) cb()
+    }
+  );

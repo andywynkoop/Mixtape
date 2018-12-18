@@ -7,7 +7,10 @@ class Player extends Component {
     const { song } = this.props;
     if (!song) return;
     if (!oldProps.song || oldProps.song.id !== this.props.song.id) {
-      if (!this.audio) this.audio = new Audio(song.audio);
+      if (!this.audio) {
+        this.audio = new Audio(song.audio);
+        this.audio.onended = () => this.props.seekRight;
+      }
       else this.audio.setAttribute('src', song.audio);
       this.audio.play();
     }
@@ -17,6 +20,10 @@ class Player extends Component {
     } else if (oldProps.playing && !this.props.playing) {
       this.audio.pause();
     }
+  }
+
+  componentWillUnmount() {
+    this.audio.pause()
   }
 
   playPauseFn = () => {

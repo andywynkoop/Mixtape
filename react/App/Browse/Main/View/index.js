@@ -17,7 +17,7 @@ class View extends Component {
       case "artists":
         return <Artists />;
       default:
-        return <Songs />
+        return <Songs />;
     }
   }
 }

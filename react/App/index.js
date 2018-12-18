@@ -10,6 +10,7 @@ export default () =>
       <Route exact path="/login" component={Login} />
       <Route exact path="/signup" component={SignUp} />
       <Route path="/browse" component={Browse} />
+      <Route path="/browse/albums/:albumId" component={Browse} />
       <Route exact path="/" component={Splash} />
     </div>
   </HashRouter>;

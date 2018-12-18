@@ -1,6 +1,7 @@
 import React, { Component } from 'react-lite';
-import { fetchSongs, selectSong } from '../../../../actions';
+import { fetchSongs, selectSong, pause } from '../../../../../actions';
 import { connect } from 'react-redux-lite';
+import Song from './Song';
 
 class Songs extends Component {
   componentDidMount() {
@@ -20,16 +21,14 @@ class Songs extends Component {
     return(
       <ul>
         {this.props.songs.map((song, i) => 
-          <li className="song" onClick={this.selectSong(song.id)}>
-            <div>
-              <div className="song-icon-container">
-                <i className="fas fa-play" />
-                <span>{`${i + 1}. `}</span>
-              </div>
-              {song.title}
-            </div>
-            <i className="fas fa-ellipsis-h" />
-          </li>
+          <Song 
+            song={song} 
+            i={i} 
+            select={this.selectSong} 
+            selected={song.id === parseInt(this.props.selected)}
+            pause={this.props.pause}
+            playing={this.props.playing}
+          />
         )}
       </ul>
     )
@@ -38,12 +37,15 @@ class Songs extends Component {
 
 const mstp = state => ({
   songs: Object.values(state.entities.songs),
-  queue: Object.keys(state.entities.songs)
+  queue: Object.keys(state.entities.songs),
+  selected: state.ui.song,
+  playing: state.ui.playing
 });
 
 const mdtp = dispatch => ({
   fetchSongs: () => dispatch(fetchSongs()),
-  selectSong: (id, queue) => dispatch(selectSong(id, queue))
+  selectSong: (id, queue) => dispatch(selectSong(id, queue)),
+  pause: () => dispatch(pause())
 });
 
 export default connect(mstp, mdtp)(Songs);
