@@ -1,12 +1,12 @@
-import { combineReducers } from "redux-lite";
+const { combineReducers } = Redux;
 import users from './users';
 import songs from './songs';
 import albums from './albums';
 import artists from './artists';
 
 export default combineReducers({
-  users,
-  songs,
-  albums,
-  artists
+	users,
+	songs,
+	albums,
+	artists,
 });

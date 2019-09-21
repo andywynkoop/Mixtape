@@ -1,31 +1,34 @@
-import React from 'react-lite';
-import { connect } from 'react-redux-lite';
+const { connect } = ReactRedux;
 import Sidebar from './Sidebar';
 import Player from './Player';
 import Main from './Main';
 
 class Browse extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  componentDidUpdate() {
-    if (!this.props.loggedIn) {
-      window.location.replace('/#/login');
-    }
-  }
-  render = () => 
-    <div className="browse">
-      <div className="color-fix">
-        <Sidebar />
-        <Player />
-        <Main />
-      </div>
-    </div>
+	constructor(props) {
+		super(props);
+	}
+	componentDidUpdate() {
+		if (!this.props.loggedIn) {
+			window.location.replace('/#/login');
+		}
+	}
+	render = () => (
+		<div className="browse">
+			<div className="color-fix">
+				<Sidebar />
+				<Player />
+				<Main />
+			</div>
+		</div>
+	);
 }
 
 const mstp = state => ({ loggedIn: state.session });
 const mdtp = dispatch => ({
-  logout: () => dispatch(logout())
+	logout: () => dispatch(logout()),
 });
 
-export default connect(mstp, mdtp)(Browse);
+export default connect(
+	mstp,
+	mdtp
+)(Browse);
