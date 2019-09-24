@@ -2,6 +2,7 @@ const { connect } = ReactRedux;
 import Sidebar from './Sidebar';
 import Player from './Player';
 import Main from './Main';
+import Modal from '../Modal';
 
 class Browse extends React.Component {
 	constructor(props) {
@@ -18,6 +19,7 @@ class Browse extends React.Component {
 				<Sidebar />
 				<Player />
 				<Main />
+				<Modal />
 			</div>
 		</div>
 	);

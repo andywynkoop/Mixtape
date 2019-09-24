@@ -18,7 +18,7 @@ class Albums extends Component {
 
 	isPlaying = id => {
 		if (this.props.selected && this.props.playing) {
-			return this.props.selected.album_id === id;
+			return this.props.selected.albumId === id;
 		} else {
 			return false;
 		}
@@ -28,11 +28,11 @@ class Albums extends Component {
 		return (
 			<div>
 				<ul className="albums">
-					{this.props.albums.map(({ id, img, title, artist_id }) => (
+					{this.props.albums.map(({ id, img, title, artistId }) => (
 						<MediaCard
 							img={img}
 							title={title}
-							creator={this.props.artists[artist_id].name}
+							creator={this.props.artists[artistId].name}
 							select={this.select(id)}
 							redirect={`/browse/albums/${id}`}
 							selected={this.isPlaying(id)}

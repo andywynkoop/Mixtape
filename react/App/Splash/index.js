@@ -23,7 +23,16 @@ class Splash extends Component {
 				<Link to="/login">
 					<button className="login">Log In</button>
 				</Link>
-				<h2>Get a taste of what you're missing.</h2>
+				<h2>
+					A free music player built using custom implementations of
+					the following frontend libraries:
+				</h2>
+				<ul className="splash-ul">
+					<li>React</li>
+					<li>Redux</li>
+					<li>React Redux</li>
+					<li>React Router DOM</li>
+				</ul>
 			</div>
 		</div>
 	);

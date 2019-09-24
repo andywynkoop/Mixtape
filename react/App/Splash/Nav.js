@@ -23,7 +23,6 @@ const mdtp = dispatch => ({
 		dispatch(login({ email: 'Andy5@email.com', password: 'password' })),
 });
 
-debugger;
 export default connect(
 	null,
 	mdtp

@@ -1,4 +1,5 @@
-/******/ (function(modules) { // webpackBootstrap
+/******/
+ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -1780,8 +1781,7 @@ function (_Component) {
       artistId: -1,
       photo: null,
       photoUrl: '',
-      uploadType: 'manual',
-      videoId: null
+      uploadType: 'manual'
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "switchType", function (newType) {
@@ -1790,13 +1790,6 @@ function (_Component) {
           uploadType: newType
         });
       };
-    });
-
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "setVideoId", function (id) {
-      var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
-      return _this.setState({
-        videoId: id
-      }, cb);
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "titleChange", function (e) {
@@ -1833,25 +1826,14 @@ function (_Component) {
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "submit", function (e) {
       e.preventDefault();
+      var photo = _this.state.photo;
+      if (photo === null) return _this.props.close();
+      var form = new FormData();
+      form.append('song[img]', _this.state.photo);
+      form.append('song[album_id]', _this.state.albumId);
+      form.append('song[title]', _this.state.title);
 
-      if (_this.state.uploadType === 'youtube') {
-        _this.props.youtubeSubmit({
-          video_id: _this.state.videoId,
-          title: _this.state.title,
-          album_id: _this.state.albumId
-        });
-      } else {
-        console.log('WARNING - STILL NEED TO IMPLEMENT');
-        debugger;
-        var photo = _this.state.photo;
-        if (photo === null) return _this.props.close();
-        var form = new FormData();
-        form.append('song[img]', _this.state.photo);
-        form.append('song[album_id]', _this.state.albumId);
-        form.append('song[title]', _this.state.title);
-
-        _this.props.submit(form);
-      }
+      _this.props.submit(form);
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "close", function (e) {
@@ -1907,23 +1889,18 @@ function (_Component) {
       }, React.createElement("div", {
         className: "create-modal-content ".concat(isManual ? '' : 'youtube')
       }, React.createElement("form", {
-        onSubmit: function onSubmit(e) {
-          return e.preventDefault();
-        }
+        onSubmit: this.submit
       }, React.createElement("h2", null, "Add New Song"), React.createElement("p", null, "Add a new song from here. You can either upload an audio file or download one from a youtube video:"), React.createElement("input", {
         type: "text",
         value: this.state.title,
         onChange: this.titleChange,
         placeholder: "Song Title..."
-      }), this.allArtists(), this.allAlbums(), React.createElement("button", {
-        onClick: this.submit
-      }, "Save"), React.createElement(_UploadTypeToggle__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }), this.allArtists(), this.allAlbums(), React.createElement(_UploadTypeToggle__WEBPACK_IMPORTED_MODULE_2__["default"], {
         photoUrl: this.state.photoUrl,
         fileChange: this.fileChange,
         isManual: isManual,
-        switchType: this.switchType,
-        setVideoId: this.setVideoId
-      }))));
+        switchType: this.switchType
+      }, React.createElement("button", null, "Save")))));
     }
   }]);
 
@@ -1945,10 +1922,7 @@ var mdp = function mdp(dispatch) {
       });
     },
     submit: function submit(form) {
-      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_1__["createSong"])(form));
-    },
-    youtubeSubmit: function youtubeSubmit(songData) {
-      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_1__["createYoutubeSong"])(songData));
+      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_1__["createAlbum"])(form));
     }
   };
 };
@@ -1966,7 +1940,6 @@ var mdp = function mdp(dispatch) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions */ "./react/actions/index.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1977,37 +1950,16 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
 var _React = React,
     Component = _React.Component;
-var _ReactRedux = ReactRedux,
-    connect = _ReactRedux.connect;
-
-Function.prototype.debounce = function (interval) {
-  var _this = this;
-
-  var timeout;
-  return function () {
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    clearTimeout(timeout);
-    timeout = setTimeout(function () {
-      return _this.apply(void 0, args);
-    }, interval);
-  };
-};
 
 var UploadTypeToggle =
 /*#__PURE__*/
@@ -2015,77 +1967,20 @@ function (_Component) {
   _inherits(UploadTypeToggle, _Component);
 
   function UploadTypeToggle() {
-    var _getPrototypeOf2;
-
-    var _this2;
-
     _classCallCheck(this, UploadTypeToggle);
 
-    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-      args[_key2] = arguments[_key2];
-    }
-
-    _this2 = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(UploadTypeToggle)).call.apply(_getPrototypeOf2, [this].concat(args)));
-
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this2)), "state", {
-      query: '',
-      videoIdx: null,
-      videoId: null
-    });
-
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this2)), "queryChange", function (e) {
-      _this2.setState({
-        query: e.target.value,
-        videoIdx: null,
-        videoId: null
-      }, function () {
-        _this2.props.setVideoId(null, function () {
-          _this2.props.search.debounce(200)(_this2.state.query);
-        });
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this2)), "keyDown", function (e) {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    });
-
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this2)), "setVideo", function (idx, id) {
-      return function () {
-        return _this2.setState({
-          videoIdx: idx,
-          videoId: id
-        }, function () {
-          return _this2.props.setVideoId(id);
-        });
-      };
-    });
-
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this2)), "preview", function () {
-      var selectedVideo = _this2.props.results[_this2.state.videoIdx] || null;
-      if (selectedVideo) return React.createElement("div", {
-        className: "preview"
-      }, React.createElement("img", {
-        src: selectedVideo.snippet.thumbnails.default.url
-      }), React.createElement("p", null, selectedVideo.snippet.title));
-    });
-
-    return _this2;
+    return _possibleConstructorReturn(this, _getPrototypeOf(UploadTypeToggle).apply(this, arguments));
   }
 
   _createClass(UploadTypeToggle, [{
     key: "render",
     value: function render() {
-      var _this3 = this;
-
       var _this$props = this.props,
           photoUrl = _this$props.photoUrl,
           fileChange = _this$props.fileChange,
           isManual = _this$props.isManual,
           switchType = _this$props.switchType,
-          results = _this$props.results;
+          children = _this$props.children;
       return React.createElement("div", null, React.createElement("ul", {
         className: "modal-tabs"
       }, React.createElement("li", {
@@ -2103,44 +1998,14 @@ function (_Component) {
       }), React.createElement("input", {
         type: "file",
         onChange: fileChange
-      }))) : React.createElement("div", null, this.preview(), React.createElement("input", {
-        type: "text",
-        value: this.state.query,
-        onChange: this.queryChange,
-        onKeyDown: this.keyDown,
-        placeholder: "Search youtube...",
-        className: "youtube-search-bar"
-      }), React.createElement("ul", {
-        className: "search-results"
-      }, results.map(function (item, i) {
-        return React.createElement("li", {
-          key: item.id.videoId,
-          onClick: _this3.setVideo(i, item.id.videoId)
-        }, React.createElement("img", {
-          src: item.snippet.thumbnails.default.url
-        }), React.createElement("p", null, item.snippet.title));
-      })))));
+      })), children) : React.createElement("div", null, "Youtube", children)));
     }
   }]);
 
   return UploadTypeToggle;
 }(Component);
 
-var msp = function msp(state) {
-  return {
-    results: state.entities.search
-  };
-};
-
-var mdp = function mdp(dispatch) {
-  return {
-    search: function search(query) {
-      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_0__["searchYoutube"])(query));
-    }
-  };
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (connect(msp, mdp)(UploadTypeToggle));
+/* harmony default export */ __webpack_exports__["default"] = (UploadTypeToggle);
 
 /***/ }),
 
@@ -2669,7 +2534,7 @@ var _ReactRouter = ReactRouter,
 /*!********************************!*\
   !*** ./react/actions/index.js ***!
   \********************************/
-/*! exports provided: RECEIVE_CURRENT_USER, REMOVE_CURRENT_USER, RECEIVE_SESSION_ERRORS, CLEAR_ERRORS, RECEIVE_SONGS, CHANGE_MENU, SELECT_SONG, PLAY, PAUSE, RECEIVE_ALBUMS, RECEIVE_ARTIST, RECEIVE_ALBUM, RECEIVE_YOUTUBE, signup, login, logout, clear, fetchSongs, selectSong, play, pause, seekLeft, seekRight, playFirst, fetchAlbums, playAlbum, createArtist, createAlbum, searchYoutube, createSong, createYoutubeSong */
+/*! exports provided: RECEIVE_CURRENT_USER, REMOVE_CURRENT_USER, RECEIVE_SESSION_ERRORS, CLEAR_ERRORS, RECEIVE_SONGS, CHANGE_MENU, SELECT_SONG, PLAY, PAUSE, RECEIVE_ALBUMS, RECEIVE_ARTIST, RECEIVE_ALBUM, signup, login, logout, clear, fetchSongs, selectSong, play, pause, seekLeft, seekRight, playFirst, fetchAlbums, playAlbum, createArtist, createAlbum */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2686,7 +2551,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_ALBUMS", function() { return RECEIVE_ALBUMS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_ARTIST", function() { return RECEIVE_ARTIST; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_ALBUM", function() { return RECEIVE_ALBUM; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_YOUTUBE", function() { return RECEIVE_YOUTUBE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "signup", function() { return signup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "login", function() { return login; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logout", function() { return logout; });
@@ -2702,9 +2566,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "playAlbum", function() { return playAlbum; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createArtist", function() { return createArtist; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createAlbum", function() { return createAlbum; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "searchYoutube", function() { return searchYoutube; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createSong", function() { return createSong; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createYoutubeSong", function() { return createYoutubeSong; });
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -2725,7 +2586,6 @@ var PAUSE = 'PAUSE';
 var RECEIVE_ALBUMS = 'RECEIVE_ALBUMS';
 var RECEIVE_ARTIST = 'RECEIVE_ARTIST';
 var RECEIVE_ALBUM = 'RECEIVE_ALBUM';
-var RECEIVE_YOUTUBE = 'RECEIVE_YOUTUBE';
 var signup = function signup(user) {
   return function (dispatch) {
     return $.ajax({
@@ -2904,40 +2764,6 @@ var createAlbum = function createAlbum(form) {
         type: RECEIVE_ALBUM,
         album: album
       });
-    });
-  };
-};
-var API_KEY = 'AIzaSyCFEDOoocLQU5VxNX5ijBAiZgEXEu-LvUk';
-var searchYoutube = function searchYoutube(query) {
-  return function (dispatch) {
-    return $.ajax({
-      method: 'get',
-      url: "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=".concat(query, "&type=video&key=").concat(API_KEY)
-    }).then(function (results) {
-      return dispatch({
-        type: RECEIVE_YOUTUBE,
-        results: results
-      });
-    });
-  };
-};
-var createSong = function createSong(form) {
-  return function (dispatch) {
-    debugger;
-  };
-};
-var createYoutubeSong = function createYoutubeSong(data) {
-  return function (dispatch) {
-    return $.ajax({
-      method: 'post',
-      url: '/api/songs',
-      data: {
-        song: data
-      }
-    }).then(function (res) {
-      debugger;
-    }, function (err) {
-      debugger;
     });
   };
 };
@@ -4539,10 +4365,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _songs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./songs */ "./react/reducers/entities/songs.js");
 /* harmony import */ var _albums__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./albums */ "./react/reducers/entities/albums.js");
 /* harmony import */ var _artists__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./artists */ "./react/reducers/entities/artists.js");
-/* harmony import */ var _search__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./search */ "./react/reducers/entities/search.js");
 var _Redux = Redux,
     combineReducers = _Redux.combineReducers;
-
 
 
 
@@ -4551,35 +4375,8 @@ var _Redux = Redux,
   users: _users__WEBPACK_IMPORTED_MODULE_0__["default"],
   songs: _songs__WEBPACK_IMPORTED_MODULE_1__["default"],
   albums: _albums__WEBPACK_IMPORTED_MODULE_2__["default"],
-  artists: _artists__WEBPACK_IMPORTED_MODULE_3__["default"],
-  search: _search__WEBPACK_IMPORTED_MODULE_4__["default"]
+  artists: _artists__WEBPACK_IMPORTED_MODULE_3__["default"]
 }));
-
-/***/ }),
-
-/***/ "./react/reducers/entities/search.js":
-/*!*******************************************!*\
-  !*** ./react/reducers/entities/search.js ***!
-  \*******************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions */ "./react/actions/index.js");
-
-/* harmony default export */ __webpack_exports__["default"] = (function () {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-
-  switch (action.type) {
-    case _actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_YOUTUBE"]:
-      return action.results.items;
-
-    default:
-      return state;
-  }
-});
 
 /***/ }),
 
@@ -4758,7 +4555,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _song__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./song */ "./react/reducers/ui/song.js");
 /* harmony import */ var _playing__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./playing */ "./react/reducers/ui/playing.js");
 /* harmony import */ var _queue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./queue */ "./react/reducers/ui/queue.js");
-/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modal */ "./react/reducers/ui/modal.js");
+/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modal */ "./react/reducers/ui/modal.js");
 var _Redux = Redux,
     combineReducers = _Redux.combineReducers;
 
@@ -4771,7 +4568,7 @@ var _Redux = Redux,
   song: _song__WEBPACK_IMPORTED_MODULE_1__["default"],
   playing: _playing__WEBPACK_IMPORTED_MODULE_2__["default"],
   queue: _queue__WEBPACK_IMPORTED_MODULE_3__["default"],
-  modal: _modal__WEBPACK_IMPORTED_MODULE_4__["default"]
+  modal: _modal__WEBPACK_IMPORTED_MODULE_5__["default"]
 }));
 
 /***/ }),

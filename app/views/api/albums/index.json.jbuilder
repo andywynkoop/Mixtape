@@ -1,6 +1,6 @@
 @albums.each do |album|
   json.set! album.id do
     json.extract! album, :id, :title, :year, :artist_id
-    json.img url_for(album.img)
+    json.img url_for(album.img) if album.img.attached?
   end
 end

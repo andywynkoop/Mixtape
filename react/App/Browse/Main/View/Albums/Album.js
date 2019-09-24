@@ -56,7 +56,7 @@ const mstp = (state, props) => {
 	let artist;
 	let songs;
 	if (album) {
-		artist = state.entities.artists[album.artist_id];
+		artist = state.entities.artists[album.artistId];
 		songs = [...state.ui.queue].sort().map(id => state.entities.songs[id]);
 	}
 	return {

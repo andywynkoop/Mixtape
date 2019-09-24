@@ -1,0 +1,27 @@
+/* line 1, /Users/andywynkoop/Projects/Spotify/app/assets/stylesheets/reset.scss */
+* {
+  color: inherit;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  font-family: 'Raleway', sans-serif;
+  background: none;
+  font-size: inherit;
+}
+
+/* line 12, /Users/andywynkoop/Projects/Spotify/app/assets/stylesheets/reset.scss */
+input:focus, button:focus {
+  outline: none;
+}
+
+/* line 16, /Users/andywynkoop/Projects/Spotify/app/assets/stylesheets/reset.scss */
+li, ul {
+  list-style: none;
+  margin: 0;
+}
+
+/* line 21, /Users/andywynkoop/Projects/Spotify/app/assets/stylesheets/reset.scss */
+button, a {
+  cursor: pointer;
+}

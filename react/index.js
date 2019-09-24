@@ -7,6 +7,7 @@ const { createStore, applyMiddleware } = Redux;
 const { Provider } = ReactRedux;
 import rootReducer from './reducers';
 import thunk from './middlewares/thunk';
+import logger from './middlewares/logger';
 import App from './App';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -24,7 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	} else {
 		preloaded = {};
 	}
-	const store = createStore(rootReducer, preloaded, applyMiddleware(thunk));
+	const store = createStore(
+		rootReducer,
+		preloaded,
+		applyMiddleware(thunk, logger)
+	);
 	window.store = store;
 	React.render(
 		<Provider store={store} Component={App} />,

@@ -1,6 +1,7 @@
 const { connect } = ReactRedux;
 const { Link } = ReactRouter;
 import { logout } from '../../../actions';
+import SidebarModalLinks from './SidebarModalLinks';
 
 const Sidebar = ({ logout }) => (
 	<div className="sidebar">
@@ -10,6 +11,7 @@ const Sidebar = ({ logout }) => (
 				src="https://s3-us-west-1.amazonaws.com/react-spotify-aa/react.png"
 			/>
 		</Link>
+		<SidebarModalLinks />
 		<button onClick={logout} className="logout">
 			Log Out
 		</button>

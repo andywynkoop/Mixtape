@@ -1,0 +1,196 @@
+.create-modal-links {
+	margin-top: 20px;
+	border-top: solid 1px #444;
+	li {
+		color: white;
+		cursor: pointer;
+		margin: 5px 0px;
+		padding-left: 5px;
+		font-size: 14px;
+	}
+
+	li:hover {
+		text-shadow: 0px 0px 3px rgb(57, 243, 57);
+	}
+}
+
+.create-modal {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: rgba(0, 0, 0, 0.6);
+}
+
+.create-modal-content {
+	width: 300px;
+	min-width: 300px;
+	min-height: auto;
+	height: auto;
+	background: rgb(11, 2, 22);
+	color: white;
+	position: absolute;
+	left: calc(50% - 150px);
+	top: 100px;
+	border-radius: 3px;
+	box-shadow: 0px 0px 3px #fff;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	text-align: center;
+	transition: min-width 0.5s, width 0.5s, height 0.5s, min-height 0.5s,
+		left 0.5s, top 1s;
+
+	p {
+		font-size: 12px;
+		margin: 10px 0px 20px 0px;
+	}
+
+	form {
+		input[type='text'],
+		input[type='number'] {
+			border: solid 1px #222;
+			padding: 6px;
+			font-size: 16px;
+			margin-top: 20px;
+			border-radius: 3px;
+			text-align: center;
+			width: 200px;
+		}
+
+		p {
+			padding: 0px 10px;
+		}
+
+		h2 {
+			padding: 10px 10px 0px 10px;
+		}
+	}
+	select {
+		margin-top: 20px;
+		width: 200px;
+	}
+
+	button {
+		background: #370b72;
+		color: white;
+		display: block;
+		margin: auto;
+		padding: 5px 8px;
+		border: none;
+		margin-top: 20px;
+		border-radius: 3px;
+	}
+}
+
+.image-input {
+	height: 120px;
+	width: 120px;
+	position: relative;
+	margin: 0 auto;
+	border-radius: 3px;
+	overflow: hidden;
+
+	img,
+	input {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		height: inherit;
+		width: inherit;
+	}
+
+	img {
+		object-fit: cover;
+	}
+
+	img[src='#']::after {
+		display: block;
+		content: '+';
+		text-align: right;
+		padding-right: 10px;
+		padding-top: -10px;
+		color: black;
+		font-size: 50px;
+		line-height: 50px;
+		background: white;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: image-url('microphone');
+		background-size: contain;
+	}
+
+	input {
+		z-index: 1;
+		opacity: 0;
+		cursor: pointer;
+	}
+}
+
+.create-modal-content.youtube {
+	min-width: 700px;
+	width: 90vw;
+	left: calc(50% - 45vw);
+	min-height: 600px;
+	top: 50px;
+
+	p {
+		margin-bottom: 0;
+	}
+
+	select {
+		margin-left: 5px;
+	}
+
+	.modal-tab-view {
+		transition: height 0.5s;
+		min-height: 433px;
+		max-height: 620px;
+		height: auto;
+	}
+}
+
+.modal-tabs {
+	display: flex;
+	li {
+		border-radius: 8px 8px 0px 0px;
+		background: rgb(22, 3, 44);
+		margin: 20px -1px 0px -1px;
+		padding: 10px;
+		width: 55%;
+		border: solid 1px #370b72;
+	}
+
+	li.active {
+		background: rgb(19, 3, 37);
+		border-bottom: none;
+	}
+}
+
+.modal-tab-view {
+	background: rgb(19, 3, 37);
+	padding: 15px 0px 20px 0px;
+}
+
+.search-results {
+	display: flex;
+	flex-wrap: wrap;
+	overflow-y: scroll;
+	max-height: 300px;
+
+	li {
+		width: 120px;
+		height: 140px;
+		margin: 10px;
+
+		img: {
+			width: 100%;
+			height: auto;
+		}
+	}
+}

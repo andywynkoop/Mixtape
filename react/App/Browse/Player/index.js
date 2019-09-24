@@ -121,8 +121,8 @@ const mstp = state => {
 	const song = songs[state.ui.song];
 	let artist, album;
 	if (song) {
-		album = albums[song.album_id];
-		artist = artists[album.artist_id];
+		album = albums[song.albumId];
+		artist = artists[album.artistId];
 	}
 	return {
 		song,
