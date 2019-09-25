@@ -9,7 +9,6 @@ const Nav = ({ select }) => (
 			<li onClick={() => select('albums')}>Albums</li>
 			<li onClick={() => select('artists')}>Artists</li>
 		</ul>
-		<button className="new-playlist">New Playlist</button>
 	</nav>
 );
 

@@ -120,6 +120,7 @@ class NewAlbumModal extends Component {
 							isManual={isManual}
 							switchType={this.switchType}
 							setVideoId={this.setVideoId}
+							close={this.props.close}
 						/>
 					</form>
 				</div>

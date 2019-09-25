@@ -16,12 +16,7 @@ class NewAlbumModal extends Component {
 
 	yearChange = e => this.setState({ year: e.target.value });
 
-	artistChange = e => {
-		debugger;
-		this.setState({ artistId: e.target.value }, () => {
-			console.log(this.state);
-		});
-	};
+	artistChange = e => this.setState({ artistId: e.target.value });
 
 	fileChange = e => {
 		const reader = new FileReader();
@@ -33,7 +28,6 @@ class NewAlbumModal extends Component {
 	};
 
 	submit = e => {
-		debugger;
 		e.preventDefault();
 		const { photo } = this.state;
 		if (photo === null) return this.props.close();

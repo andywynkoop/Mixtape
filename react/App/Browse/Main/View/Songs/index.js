@@ -1,6 +1,6 @@
 const { Component } = React;
 const { connect } = ReactRedux;
-import { fetchSongs, selectSong, pause } from '../../../../../actions';
+import { fetchSongs } from '../../../../../actions';
 import Song from './Song';
 
 class Songs extends Component {
@@ -8,27 +8,12 @@ class Songs extends Component {
 		this.props.fetchSongs();
 	}
 
-	selectSong = id => () => {
-		let queue = [...this.props.queue];
-		let startIdx = queue.findIndex(el => el === id.toString());
-		let startSlice = queue.slice(startIdx, queue.length);
-		let endSlice = queue.slice(0, startIdx);
-		queue = startSlice.concat(endSlice);
-		this.props.selectSong(id, queue);
-	};
-
 	render() {
+		const { artists } = this.props;
 		return (
 			<ul>
-				{this.props.songs.map((song, i) => (
-					<Song
-						song={song}
-						i={i}
-						select={this.selectSong}
-						selected={song.id === parseInt(this.props.selected)}
-						pause={this.props.pause}
-						playing={this.props.playing}
-					/>
+				{this.props.songs.map(song => (
+					<Song song={song} artists={artists} key={song.id} />
 				))}
 			</ul>
 		);
@@ -36,16 +21,15 @@ class Songs extends Component {
 }
 
 const mstp = state => ({
-	songs: Object.values(state.entities.songs),
-	queue: Object.keys(state.entities.songs),
-	selected: state.ui.song,
-	playing: state.ui.playing,
+	songs: Object.values(state.entities.songs).sort((s1, s2) => {
+		if (s1.title > s2.title) return 1;
+		return -1;
+	}),
+	artists: state.entities.artists,
 });
 
 const mdtp = dispatch => ({
 	fetchSongs: () => dispatch(fetchSongs()),
-	selectSong: (id, queue) => dispatch(selectSong(id, queue)),
-	pause: () => dispatch(pause()),
 });
 
 export default connect(

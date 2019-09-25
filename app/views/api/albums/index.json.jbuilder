@@ -1,6 +1,7 @@
+artists = @albums.map(&:artist)
+songs = []
 @albums.each do |album|
-  json.set! album.id do
-    json.extract! album, :id, :title, :year, :artist_id
-    json.img url_for(album.img) if album.img.attached?
-  end
+  songs.concat(album.songs)
 end
+
+json.partial! '/api/music/index.json.jbuilder', albums: @albums, songs: songs, artists: artists

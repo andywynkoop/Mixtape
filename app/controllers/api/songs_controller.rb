@@ -5,15 +5,16 @@ class Api::SongsController < ApplicationController
   skip_before_action :verify_authenticity_token
   def index
     query = params[:query]
-    @songs = Song.all.limit(60).includes(:artist, :album)
+    @songs = Song.all.limit(60).with_audio.with_artist.with_album
     render :index
   end
 
   def create
     node_endpoint = "http://localhost:3001"
     rails_endpoint = "http://localhost:3000/api/receive_song_file"
-    test = RestClient.get("#{node_endpoint}?url=https://www.youtube.com/watch?v=#{song_params[:video_id]}&title=#{song_params[:title]}&album_id=#{song_params[:album_id]}&callback=#{rails_endpoint}")
-    render json: { message: "Waiting" }
+    res = RestClient.get("#{node_endpoint}?url=https://www.youtube.com/watch?v=#{song_params[:video_id]}&title=#{song_params[:title]}&album_id=#{song_params[:album_id]}&callback=#{rails_endpoint}")
+    audio_id = JSON.parse(res.body)["id"]
+    render json: { waitingFor: audio_id }
   end
 
   def receive_song_file
@@ -22,12 +23,16 @@ class Api::SongsController < ApplicationController
     title = params[:title]
     node_endpoint = "http://localhost:3001"
     file = open("#{node_endpoint}/songs/#{filename}")
-    new_song = Song.create(
+    @song = Song.new(
       title: title, 
       album_id: album_id, 
       audio: { io: file, filename: "#{filename}.webm"}
     )
-    render json: url_for(new_song.audio)
+    if @song.save
+      render :show
+    else
+      render json: @song.errors.full_messages, status: 422
+    end
   end
 
   def song_params

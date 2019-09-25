@@ -2,20 +2,23 @@ import { searchYoutube } from '../../actions';
 const { Component } = React;
 const { connect } = ReactRedux;
 
-Function.prototype.debounce = function(interval) {
-	let timeout;
-	return (...args) => {
-		clearTimeout(timeout);
-		timeout = setTimeout(() => this(...args), interval);
-	};
-};
-
 class UploadTypeToggle extends Component {
 	state = {
 		query: '',
 		videoIdx: null,
 		videoId: null,
+		isLoading: false,
 	};
+
+	componentDidUpdate(oldProps) {
+		if (!oldProps.progress && this.props.progress) {
+			this.setState({ isLoading: true });
+		} else if (oldProps.progress && !this.props.progress) {
+			this.setState({ isLoading: false }, () => {
+				this.props.close();
+			});
+		}
+	}
 
 	queryChange = e => {
 		this.setState(
@@ -51,14 +54,58 @@ class UploadTypeToggle extends Component {
 			);
 	};
 
+	manualOrYoutube = isManual => {
+		const { photoUrl, fileChange } = this.props;
+		if (isManual) {
+			return (
+				<div>
+					<div className="image-input">
+						<img src={photoUrl || '#'} />
+						<input type="file" onChange={fileChange} />
+					</div>
+				</div>
+			);
+		} else {
+			return this.youTube();
+		}
+	};
+
+	youTube = () => {
+		const { results } = this.props;
+		if (!this.state.isLoading) {
+			return (
+				<div>
+					{this.preview()}
+					<input
+						type="text"
+						value={this.state.query}
+						onChange={this.queryChange}
+						onKeyDown={this.keyDown}
+						placeholder="Search youtube..."
+						className="youtube-search-bar"
+					/>
+					<ul className="search-results">
+						{results.map((item, i) => (
+							<li
+								key={item.id.videoId}
+								onClick={this.setVideo(i, item.id.videoId)}
+							>
+								<img
+									src={item.snippet.thumbnails.default.url}
+								/>
+								<p>{item.snippet.title}</p>
+							</li>
+						))}
+					</ul>
+				</div>
+			);
+		} else {
+			return <div>Loading: {this.props.progress}%</div>;
+		}
+	};
+
 	render() {
-		const {
-			photoUrl,
-			fileChange,
-			isManual,
-			switchType,
-			results,
-		} = this.props;
+		const { isManual, switchType, results } = this.props;
 		return (
 			<div>
 				<ul className="modal-tabs">
@@ -76,45 +123,7 @@ class UploadTypeToggle extends Component {
 					</li>
 				</ul>
 				<div className="modal-tab-view">
-					{isManual ? (
-						<div>
-							<div className="image-input">
-								<img src={photoUrl || '#'} />
-								<input type="file" onChange={fileChange} />
-							</div>
-						</div>
-					) : (
-						<div>
-							{this.preview()}
-							<input
-								type="text"
-								value={this.state.query}
-								onChange={this.queryChange}
-								onKeyDown={this.keyDown}
-								placeholder="Search youtube..."
-								className="youtube-search-bar"
-							/>
-							<ul className="search-results">
-								{results.map((item, i) => (
-									<li
-										key={item.id.videoId}
-										onClick={this.setVideo(
-											i,
-											item.id.videoId
-										)}
-									>
-										<img
-											src={
-												item.snippet.thumbnails.default
-													.url
-											}
-										/>
-										<p>{item.snippet.title}</p>
-									</li>
-								))}
-							</ul>
-						</div>
-					)}
+					{this.manualOrYoutube(isManual)}
 				</div>
 			</div>
 		);
@@ -123,6 +132,7 @@ class UploadTypeToggle extends Component {
 
 const msp = state => ({
 	results: state.entities.search,
+	progress: state.ui.songProgress,
 });
 
 const mdp = dispatch => ({

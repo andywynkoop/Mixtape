@@ -8,36 +8,47 @@ class Player extends Component {
 		progress: 0,
 	};
 
-	componentDidMount() {
-		this.progressCheck = setInterval(this.setProgress, 2000);
-	}
-
 	componentWillUnmount() {
-		this.audio.pause();
 		clearInterval(this.progressCheck);
+		window.audio.pause();
+		delete window.audio;
 	}
 
 	setProgress = () => {
-		if (!this.audio || !this.props.playing) return;
+		if (!window.audio || !this.props.playing)
+			return clearInterval(this.progressCheck);
 		let percent = Math.floor(
-			100 * (this.audio.currentTime / this.audio.duration)
+			100 * (window.audio.currentTime / window.audio.duration)
 		);
 		this.setState({ progress: percent });
 	};
 
 	handleChange = e => {
 		this.setState({ progress: parseInt(e.target.value) }, () => {
-			if (this.audio) {
-				this.audio.currentTime =
-					(e.target.value / 100) * this.audio.duration;
+			if (window.audio) {
+				window.audio.currentTime =
+					(e.target.value / 100) * window.audio.duration;
 			}
 		});
 	};
 
 	handleVolumeChange = e => {
 		this.setState({ volume: e.target.value }, () => {
-			if (this.audio) {
-				this.audio.volume = this.state.volume / 100.0;
+			if (window.audio) {
+				window.audio.volume = this.state.volume / 100.0;
+			}
+		});
+	};
+
+	createOrUpdateAudio = () => {
+		const { song, seekRight } = this.props;
+		this.setState({ progress: 0 }, () => {
+			if (!window.audio) {
+				window.audio = new Audio(song.audio);
+				window.audio.onended = seekRight;
+			} else {
+				window.audio.setAttribute('src', song.audio);
+				window.audio.play();
 			}
 		});
 	};
@@ -46,27 +57,20 @@ class Player extends Component {
 		const { song } = this.props;
 		if (!song) return;
 		if (!oldProps.song || oldProps.song.id !== this.props.song.id) {
-			if (!this.audio) {
-				this.setState({ progress: 0 }, () => {
-					this.audio = new Audio(song.audio);
-					this.audio.onended = () => this.props.seekRight;
-				});
-			} else this.audio.setAttribute('src', song.audio);
-
-			this.setState({ progress: 0 }, () => {
-				this.audio.play();
-			});
+			this.createOrUpdateAudio();
 		}
 
 		if (!oldProps.playing && this.props.playing) {
-			this.audio.play();
+			window.audio.play();
+			this.progressCheck = setInterval(this.setProgress, 500);
 		} else if (oldProps.playing && !this.props.playing) {
-			this.audio.pause();
+			window.audio.pause();
+			clearInterval(this.progressCheck);
 		}
 	}
 
 	playPauseFn = () => {
-		if (!this.audio) return this.props.playFirst();
+		if (!window.audio) return this.props.playFirst();
 		return this.props.playing ? this.props.pause() : this.props.play();
 	};
 
@@ -98,7 +102,7 @@ class Player extends Component {
 						className="progress"
 						value={this.state.progress}
 						max={100}
-						onChange={this.handleChange.bind(this)}
+						onChange={this.handleChange}
 					/>
 				</div>
 				<div className="volume-container">
@@ -107,7 +111,7 @@ class Player extends Component {
 						className="volume"
 						value={this.state.volume}
 						max={100}
-						onChange={this.handleVolumeChange.bind(this)}
+						onChange={this.handleVolumeChange}
 					/>
 				</div>
 				<Preview song={song} album={album} artist={artist} />

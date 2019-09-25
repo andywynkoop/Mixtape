@@ -1,12 +1,13 @@
-import { RECEIVE_SONGS } from '../../actions';
+import { RECEIVE_MUSIC, RECEIVE_SONG } from '../../actions';
 
-export default (state={}, action) => {
-  const { type, payload } = action;
+export default (state = {}, action) => {
+	const { type, payload } = action;
 
-  switch(type) {
-    case RECEIVE_SONGS:
-      return Object.assign({}, state, payload.songs);
-    default:
-      return state;
-  }
-}
+	switch (type) {
+		case RECEIVE_MUSIC:
+		case RECEIVE_SONG:
+			return Object.assign({}, state, payload.songs);
+		default:
+			return state;
+	}
+};

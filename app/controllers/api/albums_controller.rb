@@ -1,7 +1,6 @@
 class Api::AlbumsController < ApplicationController 
   def create
     @album = Album.new(album_params)
-    debugger
     if @album.save
       render :show
     else
@@ -10,13 +9,13 @@ class Api::AlbumsController < ApplicationController
   end
   
   def index
-    @albums = Album.all.limit(30)
+    @albums = Album.all.limit(30).includes(:songs).with_img.with_artist
     render :index
   end
   
   def show
-    @songs = Album.find(params[:id]).songs
-    render '/api/songs/index'
+    @album = Album.find(params[:id])
+    render :show
   end
 
   def album_params

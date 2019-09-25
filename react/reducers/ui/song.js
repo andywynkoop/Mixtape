@@ -1,10 +1,12 @@
-import { SELECT_SONG } from '../../actions';
+import { SELECT_SONG, REMOVE_CURRENT_USER } from '../../actions';
 
 export default (state = null, action) => {
-  switch(action.type) {
-    case SELECT_SONG:
-      return action.songId;
-    default:
-      return state;
-  }
-}
+	switch (action.type) {
+		case SELECT_SONG:
+			return action.songId;
+		case REMOVE_CURRENT_USER:
+			return null;
+		default:
+			return state;
+	}
+};

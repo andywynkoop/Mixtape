@@ -228,6 +228,8 @@
   background: rgba(0, 0, 0, 0.8);
   position: relative;
 }
+
+.sidebar
 /* line 218, /Users/andywynkoop/Desktop/search/projects/Spotify/app/assets/stylesheets/main.scss */
 .sidebar .logout {
   position: absolute;

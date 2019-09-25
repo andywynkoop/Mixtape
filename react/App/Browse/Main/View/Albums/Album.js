@@ -1,27 +1,15 @@
 const { Component } = React;
 const { connect } = ReactRedux;
-import { selectSong, pause, playAlbum } from '../../../../../actions';
+import { selectSong, fetchAlbum } from '../../../../../actions';
 import Song from '../Songs/Song';
 
 class Album extends Component {
 	componentDidMount() {
-		this.props.playAlbum(this.props.match.params.albumId, () => {
-			console.log('done');
-		});
+		this.props.fetchAlbum();
 	}
-	selectSong = id => () => {
-		let queue = [...this.props.queue];
-		let startIdx = queue.findIndex(el => el === id.toString());
-		let startSlice = queue.slice(startIdx, queue.length);
-		let endSlice = queue.slice(0, startIdx);
-		queue = startSlice.concat(endSlice);
-		this.props.selectSong(id, queue);
-	};
-
-	back = () => this.props.history.push('/browse');
 
 	render() {
-		const { album, artist, selected, pause, playing, songs } = this.props;
+		const { album, artist, songs } = this.props;
 		if (!album) return <div />;
 		const { img, title } = album;
 		return (
@@ -34,45 +22,44 @@ class Album extends Component {
 				<ul>
 					{songs.map((song, i) => (
 						<Song
+							artists={{ [artist.id]: artist }}
+							key={song.id}
 							song={song}
-							i={i}
-							select={this.selectSong}
-							selected={song.id === parseInt(selected)}
-							pause={pause}
-							playing={playing}
 						/>
 					))}
 				</ul>
-				<button className="album-back" onClick={this.back}>
-					<i className="fas fa-chevron-left" />
-				</button>
+				<a href="#/browse">
+					<button className="album-back">
+						<i className="fas fa-chevron-left" />
+					</button>
+				</a>
 			</div>
 		);
 	}
 }
 
 const mstp = (state, props) => {
-	const album = state.entities.albums[props.match.params.albumId];
+	const albumId = props.match.params.albumId;
+	const album = state.entities.albums[albumId];
 	let artist;
 	let songs;
 	if (album) {
 		artist = state.entities.artists[album.artistId];
-		songs = [...state.ui.queue].sort().map(id => state.entities.songs[id]);
+		songs = Object.values(state.entities.songs).filter(
+			song => song.albumId == albumId
+		);
 	}
 	return {
 		queue: state.ui.queue,
-		selected: state.ui.song,
-		playing: state.ui.playing,
 		album,
 		artist,
 		songs,
 	};
 };
 
-const mdtp = dispatch => ({
+const mdtp = (dispatch, props) => ({
 	selectSong: (id, queue) => dispatch(selectSong(id, queue)),
-	pause: () => dispatch(pause()),
-	playAlbum: (id, cb) => dispatch(playAlbum(id, cb)),
+	fetchAlbum: () => dispatch(fetchAlbum(props.match.params.albumId)),
 });
 
 export default connect(

@@ -4,6 +4,7 @@ import song from './song';
 import playing from './playing';
 import queue from './queue';
 import modal from './modal';
+import songProgress from './songProgress';
 
 export default combineReducers({
 	menu,
@@ -11,4 +12,5 @@ export default combineReducers({
 	playing,
 	queue,
 	modal,
+	songProgress,
 });

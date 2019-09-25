@@ -8,6 +8,14 @@ class Api::ArtistsController < ApplicationController
     end
   end
 
+  def index 
+    @artists = Artist.all
+  end
+
+  def show 
+    @artist = Artist.find(params[:id])
+  end
+
   def artist_params
     params.require(:artist).permit(:img, :name)
   end

@@ -1,4 +1,4 @@
-import { RECEIVE_ARTIST } from '../../actions';
+import { RECEIVE_MUSIC } from '../../actions';
 
 export const CLOSE_ANY = 'CLOSE_ANY';
 export const OPEN_NEW_ARTIST = 'OPEN_NEW_ARTIST';
@@ -14,7 +14,7 @@ export default (state = null, action) => {
 		case OPEN_NEW_SONG:
 			return 'newSong';
 		case CLOSE_ANY:
-		case RECEIVE_ARTIST:
+		case RECEIVE_MUSIC:
 			return null;
 		default:
 			return state;

@@ -1,4 +1,7 @@
+import { playFirst, pause } from '../../../../../actions';
 const { Component } = React;
+const { connect } = ReactRedux;
+
 class MediaCard extends Component {
 	attributes = () =>
 		this.props.selected
@@ -9,17 +12,17 @@ class MediaCard extends Component {
 			  }
 			: {
 					overlayClass: 'media-overlay',
-					handleClick: this.props.select,
+					handleClick: () => this.props.playFirst(this.props.queue),
 					icon: <i className="fas fa-play" />,
 			  };
 
 	handleClick = e => {
 		if (e.target.className !== 'fas fa-play') {
-			window.location.replace(`/#${this.props.redirect}`);
+			window.location.replace(`/#/browse/albums/${this.props.album.id}`);
 		}
 	};
 	render() {
-		const { img, title, creator, redirect } = this.props;
+		const { img, title, creator } = this.props.album;
 		const { overlayClass, handleClick, icon } = this.attributes();
 		return (
 			<a onClick={this.handleClick}>
@@ -38,4 +41,18 @@ class MediaCard extends Component {
 	}
 }
 
-export default MediaCard;
+const msp = (state, { album }) => ({
+	queue: Object.values(state.entities.songs)
+		.filter(song => song.albumId == album.id)
+		.map(song => song.id),
+});
+
+const mdp = dispatch => ({
+	playFirst: queue => dispatch(playFirst(queue)),
+	pause: () => dispatch(pause()),
+});
+
+export default connect(
+	msp,
+	mdp
+)(MediaCard);

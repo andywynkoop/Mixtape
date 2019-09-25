@@ -2,15 +2,14 @@ export const RECEIVE_CURRENT_USER = 'RECEIVE_USER';
 export const REMOVE_CURRENT_USER = 'REMOVE_CURRENT_USER';
 export const RECEIVE_SESSION_ERRORS = 'RECEIVE_SESSION_ERRORS';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
-export const RECEIVE_SONGS = 'RECEIVE_SONGS';
 export const CHANGE_MENU = 'CHANGE_MENU';
 export const SELECT_SONG = 'SELECT_SONG';
 export const PLAY = 'PLAY';
 export const PAUSE = 'PAUSE';
-export const RECEIVE_ALBUMS = 'RECEIVE_ALBUMS';
-export const RECEIVE_ARTIST = 'RECEIVE_ARTIST';
-export const RECEIVE_ALBUM = 'RECEIVE_ALBUM';
 export const RECEIVE_YOUTUBE = 'RECEIVE_YOUTUBE';
+export const RECEIVE_SONG_PROGRESS = 'RECEIVE_SONG_PROGRESS';
+export const RECEIVE_SONG = 'RECEIVE_SONG';
+export const RECEIVE_MUSIC = 'RECEIVE_MUSIC';
 
 export const signup = user => dispatch =>
 	$.ajax({
@@ -44,19 +43,54 @@ export const fetchSongs = (query = '') => dispatch =>
 	$.ajax({
 		method: 'get',
 		url: `/api/songs?query=${query}`,
-	}).then(payload => dispatch({ type: RECEIVE_SONGS, payload }));
+	}).then(payload => dispatch({ type: RECEIVE_MUSIC, payload }));
 
-export const selectSong = (songId, queue) => ({
-	type: SELECT_SONG,
-	songId,
-	queue,
-});
+export const fetchAlbums = () => dispatch =>
+	$.ajax({
+		method: 'get',
+		url: '/api/albums',
+	}).then(payload => dispatch({ type: RECEIVE_MUSIC, payload }));
+
+export const fetchAlbum = id => dispatch =>
+	$.ajax({
+		method: 'get',
+		url: `/api/albums/${id}`,
+	}).then(payload => dispatch({ type: RECEIVE_MUSIC, payload }));
+
+export const fetchArtists = () => dispatch =>
+	$.ajax({
+		method: 'get',
+		url: '/api/artists',
+	}).then(payload => dispatch({ type: RECEIVE_MUSIC, payload }));
+
+const rotateQueue = (id, queue) => {
+	const idx = queue.findIndex(songId => songId == id);
+	const firstPart = queue.slice(0, idx);
+	const secondPart = queue.slice(idx);
+	return secondPart.concat(firstPart);
+};
+
+export const selectSong = (songId, queue = null) => (dispatch, getState) => {
+	if (!queue)
+		queue = Object.keys(getState().entities.songs).sort((s1, s2) => {
+			if (s1.title > s2.title) return 1;
+			return -1;
+		});
+
+	queue = rotateQueue(songId, [...queue]);
+	dispatch({
+		type: SELECT_SONG,
+		songId,
+		queue,
+	});
+};
 
 export const play = () => ({ type: PLAY });
 export const pause = () => ({ type: PAUSE });
 
 export const seekLeft = () => (dispatch, getState) => {
 	const _queue = getState().ui.queue;
+	if (!_queue.length) return dispatch(playFirst());
 	const queue = [..._queue];
 	const prevSong = queue.pop();
 	queue.unshift(prevSong);
@@ -65,33 +99,22 @@ export const seekLeft = () => (dispatch, getState) => {
 
 export const seekRight = () => (dispatch, getState) => {
 	const _queue = getState().ui.queue;
+	if (!_queue.length) return dispatch(playFirst());
 	const queue = [..._queue];
 	const nextSong = queue.shift();
 	queue.push(nextSong);
 	dispatch(selectSong(queue[0], queue));
 };
 
-export const playFirst = () => (dispatch, getState) => {
-	const _queue = getState().ui.queue;
-	const queue = [..._queue];
+export const playFirst = (queue = null) => (dispatch, getState) => {
+	if (!queue)
+		queue = Object.keys(getState().entities.songs).sort((s1, s2) => {
+			if (s1.title > s2.title) return 1;
+			return -1;
+		});
+
 	dispatch(selectSong(queue[0], queue));
 };
-
-export const fetchAlbums = () => dispatch =>
-	$.ajax({
-		method: 'get',
-		url: '/api/albums',
-	}).then(albums => dispatch({ type: RECEIVE_ALBUMS, albums }));
-
-export const playAlbum = (id, cb) => dispatch =>
-	$.ajax({
-		method: 'get',
-		url: `/api/albums/${id}`,
-	})
-		.then(payload => dispatch({ type: RECEIVE_SONGS, payload }))
-		.then(() => {
-			if (cb) cb();
-		});
 
 export const createArtist = form => dispatch =>
 	$.ajax({
@@ -100,7 +123,7 @@ export const createArtist = form => dispatch =>
 		data: form,
 		processData: false,
 		contentType: false,
-	}).then(artist => dispatch({ type: RECEIVE_ARTIST, artist }));
+	}).then(payload => dispatch({ type: RECEIVE_MUSIC, payload }));
 
 export const createAlbum = form => dispatch =>
 	$.ajax({
@@ -109,7 +132,7 @@ export const createAlbum = form => dispatch =>
 		data: form,
 		processData: false,
 		contentType: false,
-	}).then(album => dispatch({ type: RECEIVE_ALBUM, album }));
+	}).then(payload => dispatch({ type: RECEIVE_MUSIC, payload }));
 
 const API_KEY = 'AIzaSyCFEDOoocLQU5VxNX5ijBAiZgEXEu-LvUk';
 
@@ -127,11 +150,14 @@ export const createYoutubeSong = data => dispatch =>
 		method: 'post',
 		url: '/api/songs',
 		data: { song: data },
-	}).then(
-		res => {
-			debugger;
-		},
-		err => {
-			debugger;
-		}
-	);
+	}).then(res => {
+		io.on(res.waitingFor, songProgress => {
+			dispatch({ type: RECEIVE_SONG_PROGRESS, songProgress });
+		});
+	});
+
+export const search = query => dispatch =>
+	$.ajax({
+		method: 'get',
+		url: `/api/search?query=${query}`,
+	}).then(payload => dispatch({ type: RECEIVE_MUSIC, payload }));
