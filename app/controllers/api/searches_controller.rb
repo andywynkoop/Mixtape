@@ -13,8 +13,19 @@ class Api::SearchesController < ApplicationController
         LOWER(title) LIKE '%#{query}%'
       SQL
 
-      @songs = Song.where(<<-SQL)
-        LOWER(title) LIKE '%#{query}%'
+      @songs = Song.find_by_sql(<<-SQL)
+        SELECT
+          songs.*
+        FROM
+          songs
+        JOIN
+          albums ON songs.album_id = albums.id
+        JOIN
+          artists ON albums.artist_id = artists.id
+        WHERE
+          LOWER(songs.title) LIKE '%#{query}%'
+        OR
+          LOWER(artists.name) LIKE '%#{query}%'
       SQL
     end
   end
