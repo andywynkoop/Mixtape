@@ -47,7 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	const receiveSong = payload => {
 		store.dispatch({ type: RECEIVE_SONG, payload });
 	};
-	io.on('newSong', receiveSong.debounce(1000));
+	const receiveDebounced = receiveSong.debounce(1000);
+	io.on('newSong', receiveDebounced);
 	// react render
 	React.render(
 		<Provider store={store} Component={App} />,

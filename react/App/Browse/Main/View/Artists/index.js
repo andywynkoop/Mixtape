@@ -20,8 +20,8 @@ class Artists extends Component {
 	}
 }
 
-const msp = state => ({
-	artists: Object.values(state.entities.artists),
+const msp = (state, { artists }) => ({
+	artists: artists || Object.values(state.entities.artists),
 });
 
 const mdp = dispatch => ({

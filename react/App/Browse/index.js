@@ -8,11 +8,11 @@ class Browse extends React.Component {
 	constructor(props) {
 		super(props);
 	}
+
 	componentDidUpdate() {
-		if (!this.props.loggedIn) {
-			window.location.replace('/#/login');
-		}
+		if (!this.props.loggedIn) window.location.replace('/#/');
 	}
+
 	render = () => (
 		<div className="browse">
 			<div className="color-fix">

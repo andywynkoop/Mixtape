@@ -39,6 +39,7 @@
 	overflow-y: scroll;
 	overflow-x: hidden;
 	text-align: center;
+	z-index: 1;
 	transition: min-width 0.5s, width 0.5s, height 0.5s, min-height 0.5s,
 		left 0.5s, top 1s;
 
@@ -165,6 +166,7 @@
 		padding: 10px;
 		width: 55%;
 		border: solid 1px #370b72;
+		cursor: pointer;
 	}
 
 	li.active {

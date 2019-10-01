@@ -1,22 +1,30 @@
 const { connect } = ReactRedux;
 const { Link } = ReactRouter;
-import { logout, CHANGE_MENU } from '../../../actions';
+import { logout } from '../../../actions';
 import SidebarModalLinks from './SidebarModalLinks';
 
-const Sidebar = ({ logout, select }) => (
+const Sidebar = ({ logout }) => (
 	<div className="sidebar">
 		<Link to="/browse">
 			<img
 				className="logoB"
-				src="https://s3-us-west-1.amazonaws.com/react-spotify-aa/react.png"
+				src="https://react-spotify-aa.s3-us-west-1.amazonaws.com/reactnote2.png"
 			/>
 		</Link>
 		<p>Pages</p>
 		<ul className="sidebar-page-links">
-			<li onClick={() => select('playlists')}>Playlists</li>
-			<li onClick={() => select('songs')}>Songs</li>
-			<li onClick={() => select('albums')}>Albums</li>
-			<li onClick={() => select('artists')}>Artists</li>
+			<li>
+				<Link to="/browse/playlists">Playlists</Link>
+			</li>
+			<li>
+				<Link to="/browse">Songs</Link>
+			</li>
+			<li>
+				<Link to="/browse/albums">Albums</Link>
+			</li>
+			<li>
+				<Link to="/browse/artists">Artists</Link>
+			</li>
 		</ul>
 		<p>Contribute</p>
 		<SidebarModalLinks />
@@ -24,12 +32,19 @@ const Sidebar = ({ logout, select }) => (
 		<button onClick={logout} className="logout">
 			Log Out
 		</button>
+		<p>Personal</p>
+		<ul className="create-modal-links">
+			<li>
+				<Link to="/browse/search">
+					Search <i className="fa fa-search small" />
+				</Link>
+			</li>
+		</ul>
 	</div>
 );
 
 const mdtp = dispatch => ({
 	logout: () => dispatch(logout()),
-	select: menu => dispatch({ type: CHANGE_MENU, menu }),
 });
 
 export default connect(

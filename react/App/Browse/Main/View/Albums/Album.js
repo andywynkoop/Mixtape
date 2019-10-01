@@ -1,10 +1,12 @@
 const { Component } = React;
 const { connect } = ReactRedux;
+const { Link } = ReactRouter;
 import { selectSong, fetchAlbum } from '../../../../../actions';
 import Song from '../Songs/Song';
 
 class Album extends Component {
 	componentDidMount() {
+		console.log('album.js');
 		this.props.fetchAlbum();
 	}
 
@@ -28,11 +30,11 @@ class Album extends Component {
 						/>
 					))}
 				</ul>
-				<a href="#/browse">
+				<Link to="/browse">
 					<button className="album-back">
 						<i className="fas fa-chevron-left" />
 					</button>
-				</a>
+				</Link>
 			</div>
 		);
 	}

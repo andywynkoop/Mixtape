@@ -11,8 +11,8 @@ const Song = ({ song, thisSongIsPlaying, pause, play, artist }) => {
 		icon = <i className="fas fa-play" />;
 	}
 	return (
-		<li className="song" onClick={click}>
-			<div>
+		<li className="song">
+			<div onClick={click}>
 				<div className="song-icon-container">
 					<img src={artist.img} />
 					{icon}

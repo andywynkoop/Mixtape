@@ -7,7 +7,7 @@ const Nav = ({ demo }) => (
 		<Link to="/">
 			<img
 				className="logo"
-				src="https://s3-us-west-1.amazonaws.com/react-spotify-aa/react.png"
+				src="https://react-spotify-aa.s3-us-west-1.amazonaws.com/reactnote2.png"
 			/>
 		</Link>
 		<ul className="nav-links">

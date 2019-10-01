@@ -23,5 +23,9 @@ apiKey.js
 /public/assets
 .byebug_history
 
+secret.js
+main.js
+main.js.map
+
 # Ignore master key for decrypting credentials and more.
 /config/master.key

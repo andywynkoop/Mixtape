@@ -21,8 +21,8 @@ class Albums extends Component {
 	}
 }
 
-const mstp = state => ({
-	albums: Object.values(state.entities.albums),
+const mstp = (state, { albums }) => ({
+	albums: albums || Object.values(state.entities.albums),
 });
 
 const mdtp = dispatch => ({

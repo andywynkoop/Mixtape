@@ -17,7 +17,7 @@ class NewAlbumModal extends Component {
 
 	switchType = newType => () => this.setState({ uploadType: newType });
 
-	setVideoId = (id, cb = () => {}) => this.setState({ videoId: id }, cb);
+	setVideoId = (id, cb = () => null) => this.setState({ videoId: id }, cb);
 
 	titleChange = e => this.setState({ title: e.target.value });
 

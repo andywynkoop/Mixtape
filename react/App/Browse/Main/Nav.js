@@ -1,26 +1,27 @@
-const { connect } = ReactRedux;
-import { CHANGE_MENU } from '../../../actions';
+const { Link } = ReactRouter;
 
-const Nav = ({ select }) => (
+const Nav = () => (
 	<nav className="main-nav">
 		<ul>
-			<li onClick={() => select('playlists')}>Playlists</li>
-			<li onClick={() => select('songs')}>Songs</li>
-			<li onClick={() => select('albums')}>Albums</li>
-			<li onClick={() => select('artists')}>Artists</li>
+			<li>
+				<Link to="/browse/playlists">Playlists</Link>
+			</li>
+			<li>
+				<Link to="/browse">Songs</Link>
+			</li>
+			<li>
+				<Link to="/browse/albums">Albums</Link>
+			</li>
+			<li>
+				<Link to="/browse/artists">Artists</Link>
+			</li>
+			<li>
+				<Link to="/browse/search">
+					<i className="fa fa-search" />
+				</Link>
+			</li>
 		</ul>
 	</nav>
 );
 
-const mstp = state => ({
-	menu: state.ui.menu,
-});
-
-const mdtp = dispatch => ({
-	select: menu => dispatch({ type: CHANGE_MENU, menu }),
-});
-
-export default connect(
-	mstp,
-	mdtp
-)(Nav);
+export default Nav;

@@ -20,13 +20,16 @@ class Songs extends Component {
 	}
 }
 
-const mstp = state => ({
-	songs: Object.values(state.entities.songs).sort((s1, s2) => {
-		if (s1.title > s2.title) return 1;
-		return -1;
-	}),
-	artists: state.entities.artists,
-});
+const mstp = (state, { songs }) => {
+	songs = songs || Object.values(state.entities.songs);
+	return {
+		songs: songs.sort((s1, s2) => {
+			if (s1.title > s2.title) return 1;
+			return -1;
+		}),
+		artists: state.entities.artists,
+	};
+};
 
 const mdtp = dispatch => ({
 	fetchSongs: () => dispatch(fetchSongs()),

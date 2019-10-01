@@ -6,6 +6,7 @@ import Preview from './Preview';
 class Player extends Component {
 	state = {
 		progress: 0,
+		volume: window.localStorage.getItem('player-volume') || 50,
 	};
 
 	componentWillUnmount() {
@@ -17,10 +18,8 @@ class Player extends Component {
 	setProgress = () => {
 		if (!window.audio || !this.props.playing)
 			return clearInterval(this.progressCheck);
-		let percent = Math.floor(
-			100 * (window.audio.currentTime / window.audio.duration)
-		);
-		this.setState({ progress: percent });
+		const progress = Math.floor(100 * (audio.currentTime / audio.duration));
+		this.setState({ progress });
 	};
 
 	handleChange = e => {
@@ -33,7 +32,9 @@ class Player extends Component {
 	};
 
 	handleVolumeChange = e => {
-		this.setState({ volume: e.target.value }, () => {
+		const newVolume = parseInt(e.target.value);
+		window.localStorage.setItem('player-volume', newVolume);
+		this.setState({ volume: newVolume }, () => {
 			if (window.audio) {
 				window.audio.volume = this.state.volume / 100.0;
 			}
@@ -62,7 +63,7 @@ class Player extends Component {
 
 		if (!oldProps.playing && this.props.playing) {
 			window.audio.play();
-			this.progressCheck = setInterval(this.setProgress, 500);
+			this.progressCheck = setInterval(this.setProgress, 1000);
 		} else if (oldProps.playing && !this.props.playing) {
 			window.audio.pause();
 			clearInterval(this.progressCheck);

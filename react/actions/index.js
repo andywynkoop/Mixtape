@@ -2,7 +2,6 @@ export const RECEIVE_CURRENT_USER = 'RECEIVE_USER';
 export const REMOVE_CURRENT_USER = 'REMOVE_CURRENT_USER';
 export const RECEIVE_SESSION_ERRORS = 'RECEIVE_SESSION_ERRORS';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
-export const CHANGE_MENU = 'CHANGE_MENU';
 export const SELECT_SONG = 'SELECT_SONG';
 export const PLAY = 'PLAY';
 export const PAUSE = 'PAUSE';
@@ -134,7 +133,7 @@ export const createAlbum = form => dispatch =>
 		contentType: false,
 	}).then(payload => dispatch({ type: RECEIVE_MUSIC, payload }));
 
-const API_KEY = 'AIzaSyCFEDOoocLQU5VxNX5ijBAiZgEXEu-LvUk';
+import API_KEY from './secret';
 
 export const searchYoutube = query => dispatch =>
 	$.ajax({

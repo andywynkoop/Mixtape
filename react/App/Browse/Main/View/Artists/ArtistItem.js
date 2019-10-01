@@ -1,5 +1,5 @@
-import { playFirst } from '../../../../../actions';
-
+import { playFirst, pause } from '../../../../../actions';
+const { Link } = ReactRouter;
 const { Component } = React;
 const { connect } = ReactRedux;
 
@@ -17,9 +17,9 @@ class ArtistItem extends Component {
 					<i className={`fas fa-${isPlaying ? 'pause' : 'play'}`} />
 					<img src={artist.img} />
 				</div>
-				<a href={`/#/artists/${artist.id}`}>
+				<Link to={`/artists/${artist.id}`}>
 					<p>{artist.name}</p>
-				</a>
+				</Link>
 			</li>
 		);
 	}
@@ -36,7 +36,7 @@ const msp = (state, { artist }) => {
 
 	return {
 		allArtistSongs,
-		isPlaying: allArtistSongs.includes(state.ui.song),
+		isPlaying: allArtistSongs.includes(state.ui.song) && state.ui.playing,
 	};
 };
 

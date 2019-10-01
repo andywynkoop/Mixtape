@@ -9,7 +9,7 @@ export default (state = false, action) => {
 		case PAUSE:
 			return false;
 		case REMOVE_CURRENT_USER:
-			window.audio.pause();
+			if (window.audio) window.audio.pause();
 			delete window.audio;
 			return false;
 		default:

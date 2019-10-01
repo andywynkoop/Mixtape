@@ -214,7 +214,7 @@ $purple2: #5d0391;
 		bottom: 0;
 		right: 0;
 		background: rgba(0, 0, 0, 0.5);
-		padding: 18px 0px 0px 18px;
+		padding: 16px 0px 0px 17px;
 		width: 60px;
 		height: 60px;
 	}
@@ -231,7 +231,7 @@ $purple2: #5d0391;
 		bottom: 0;
 		right: 0;
 		background: rgba(0, 0, 0, 0.5);
-		padding: 18px 0px 0px 18px;
+		padding: 16px 0px 0px 17px;
 	}
 	.song:hover span {
 		display: none;
@@ -239,6 +239,7 @@ $purple2: #5d0391;
 
 	.song .song-info {
 		margin-left: 10px;
+		cursor: pointer;
 		h4 {
 			font-size: 14px;
 			margin: 10px 0px 3px 0px;
@@ -489,6 +490,9 @@ $purple2: #5d0391;
 
 	.album-show-artist {
 		padding: 0px 40px 0px 20px;
+		img {
+			width: 400px;
+		}
 	}
 
 	ul {
@@ -523,4 +527,45 @@ $purple2: #5d0391;
 		bottom: 30px;
 		left: 30px;
 	}
+}
+
+.search-view {
+	position: absolute;
+	background: rgba(0, 0, 0, 0.8);
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	min-height: 100%;
+	height: fit-content;
+
+	#main-search {
+		position: absolute;
+		width: 80%;
+		left: 10%;
+		top: 30px;
+		height: 60px;
+		border-radius: 35px;
+		border: none;
+		background: rgba(0, 0, 0, 0.9);
+		box-shadow: 0px 0px 1px rgba(155, 155, 155, 0.9);
+		color: white;
+		padding: 10px 20px;
+		font-size: 20px;
+	}
+
+	> div {
+		margin-top: 120px;
+
+		> ul {
+			padding: 10px 20px;
+		}
+	}
+}
+
+.fa-search.small {
+	font-size: 11px;
+}
+.fa-pause, .fa-play {
+	cursor: pointer;
 }

@@ -1,17 +1,21 @@
-class SearchesController < ApplicationController
+class Api::SearchesController < ApplicationController
   def index
     query = params[:query]
+    if query == ""
+      @artists, @albums, @songs = [], [], []
+    else
+      query = query.downcase
+      @artists = Artist.where(<<-SQL)
+        LOWER(name) LIKE '%#{query}%'
+      SQL
+      
+      @albums = Album.where(<<-SQL)
+        LOWER(title) LIKE '%#{query}%'
+      SQL
 
-    @artists = Artist.where(<<-SQL)
-      name LIKE '%#{query}%'
-    SQL
-    
-    @albums = Album.where(<<-SQL)
-      title LIKE '%#{query}%'
-    SQL
-
-    @songs = Song.where(<<-SQL)
-      title LIKE '%#{query}%'
-    SQL
+      @songs = Song.where(<<-SQL)
+        LOWER(title) LIKE '%#{query}%'
+      SQL
+    end
   end
 end
