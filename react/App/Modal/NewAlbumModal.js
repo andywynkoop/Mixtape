@@ -10,6 +10,7 @@ class NewAlbumModal extends Component {
 		artistId: -1,
 		photo: null,
 		photoUrl: '',
+		isUpload: false,
 	};
 
 	titleChange = e => this.setState({ title: e.target.value });
@@ -22,20 +23,33 @@ class NewAlbumModal extends Component {
 		const reader = new FileReader();
 		const file = e.currentTarget.files[0];
 		reader.onloadend = () =>
-			this.setState({ photoUrl: reader.result, photo: file });
+			this.setState({
+				photoUrl: reader.result,
+				photo: file,
+				isUpload: true,
+			});
 
 		if (file) reader.readAsDataURL(file);
 	};
 
+	addImageLink = e => {
+		this.setState({ photoUrl: e.target.value, isUpload: false });
+	};
+
 	submit = e => {
 		e.preventDefault();
-		const { photo } = this.state;
-		if (photo === null) return this.props.close();
+		const { photo, artistId, title, year, isUpload, photoUrl } = this.state;
+		if (photo === null && isUpload) return this.props.close();
 		const form = new FormData();
-		form.append('album[img]', this.state.photo);
-		form.append('album[artist_id]', this.state.artistId);
-		form.append('album[title]', this.state.title);
-		form.append('album[year]', this.state.year);
+		if (isUpload) {
+			form.append('album[img]', photo);
+		} else {
+			form.append('img_url', photoUrl);
+		}
+		form.append('album[artist_id]', artistId);
+		form.append('album[title]', title);
+		form.append('album[year]', year);
+		form.append('is_upload', isUpload);
 		this.props.submit(form);
 	};
 
@@ -52,13 +66,22 @@ class NewAlbumModal extends Component {
 					<form onSubmit={this.submit}>
 						<h2>Add New Album</h2>
 						<p>
-							If you can't find an album you're looking for here,
-							you can add it below:
+							If you're looking for an album that doesn't exist
+							yet you can add it below. If the artist of the album
+							doesn't exist either, you'll need to add them first
+							via the link in the sidebar. You can upload the
+							album art manually if you have it, or you can paste
+							a link to a hosted image in the field below:
 						</p>
 						<div className="image-input">
 							<img src={this.state.photoUrl || '#'} />
 							<input type="file" onChange={this.fileChange} />
 						</div>
+						<input
+							type="text"
+							onChange={this.addImageLink}
+							placeholder="Link to Album Image..."
+						/>
 						<input
 							type="text"
 							value={this.state.title}

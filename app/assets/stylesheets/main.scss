@@ -337,6 +337,7 @@ $purple2: #5d0391;
 		position: absolute;
 		left: 15px;
 		top: 15px;
+		cursor: pointer;
 		img {
 			height: 60px;
 			width: 60px;
@@ -566,6 +567,7 @@ $purple2: #5d0391;
 .fa-search.small {
 	font-size: 11px;
 }
-.fa-pause, .fa-play {
+.fa-pause,
+.fa-play {
 	cursor: pointer;
 }

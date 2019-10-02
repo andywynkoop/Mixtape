@@ -10186,7 +10186,7 @@ function (_Component) {
           song: song
         });
       })), React.createElement(Link, {
-        to: "/browse"
+        to: "/browse/albums"
       }, React.createElement("button", {
         className: "album-back"
       }, React.createElement("i", {
@@ -10305,7 +10305,9 @@ function (_Component) {
 var mstp = function mstp(state, _ref) {
   var albums = _ref.albums;
   return {
-    albums: albums || Object.values(state.entities.albums)
+    albums: (albums || Object.values(state.entities.albums)).sort(function (a1, a2) {
+      return a1.title > a2.title ? 1 : -1;
+    })
   };
 };
 
@@ -10513,7 +10515,9 @@ function (_Component) {
 var msp = function msp(state, _ref) {
   var artists = _ref.artists;
   return {
-    artists: artists || Object.values(state.entities.artists)
+    artists: (artists || Object.values(state.entities.artists)).sort(function (a1, a2) {
+      return a1.name > a2.name ? 1 : -1;
+    })
   };
 };
 
@@ -11435,6 +11439,7 @@ var mdp = function mdp(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../actions */ "./react/actions/index.js");
 /* harmony import */ var _SidebarModalLinks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SidebarModalLinks */ "./react/App/Browse/Sidebar/SidebarModalLinks.js");
+/* harmony import */ var _reducers_ui_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../reducers/ui/modal */ "./react/reducers/ui/modal.js");
 var _ReactRedux = ReactRedux,
     connect = _ReactRedux.connect;
 var _ReactRouter = ReactRouter,
@@ -11442,8 +11447,10 @@ var _ReactRouter = ReactRouter,
 
 
 
+
 var Sidebar = function Sidebar(_ref) {
-  var logout = _ref.logout;
+  var logout = _ref.logout,
+      newPlaylist = _ref.newPlaylist;
   return React.createElement("div", {
     className: "sidebar"
   }, React.createElement(Link, {
@@ -11462,6 +11469,7 @@ var Sidebar = function Sidebar(_ref) {
   }, "Albums")), React.createElement("li", null, React.createElement(Link, {
     to: "/browse/artists"
   }, "Artists"))), React.createElement("p", null, "Contribute"), React.createElement(_SidebarModalLinks__WEBPACK_IMPORTED_MODULE_1__["default"], null), React.createElement("button", {
+    onClick: newPlaylist,
     className: "new-playlist"
   }, "New Playlist"), React.createElement("button", {
     onClick: logout,
@@ -11479,6 +11487,11 @@ var mdtp = function mdtp(dispatch) {
   return {
     logout: function logout() {
       return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_0__["logout"])());
+    },
+    newPlaylist: function newPlaylist() {
+      return dispatch({
+        type: _reducers_ui_modal__WEBPACK_IMPORTED_MODULE_2__["OPEN_NEW_PLAYLIST"]
+      });
     }
   };
 };
@@ -11649,7 +11662,8 @@ function (_Component) {
       year: 2019,
       artistId: -1,
       photo: null,
-      photoUrl: ''
+      photoUrl: '',
+      isUpload: false
     });
 
     _defineProperty(_assertThisInitialized(_this), "titleChange", function (e) {
@@ -11677,22 +11691,43 @@ function (_Component) {
       reader.onloadend = function () {
         return _this.setState({
           photoUrl: reader.result,
-          photo: file
+          photo: file,
+          isUpload: true
         });
       };
 
       if (file) reader.readAsDataURL(file);
     });
 
+    _defineProperty(_assertThisInitialized(_this), "addImageLink", function (e) {
+      _this.setState({
+        photoUrl: e.target.value,
+        isUpload: false
+      });
+    });
+
     _defineProperty(_assertThisInitialized(_this), "submit", function (e) {
       e.preventDefault();
-      var photo = _this.state.photo;
-      if (photo === null) return _this.props.close();
+      var _this$state = _this.state,
+          photo = _this$state.photo,
+          artistId = _this$state.artistId,
+          title = _this$state.title,
+          year = _this$state.year,
+          isUpload = _this$state.isUpload,
+          photoUrl = _this$state.photoUrl;
+      if (photo === null && isUpload) return _this.props.close();
       var form = new FormData();
-      form.append('album[img]', _this.state.photo);
-      form.append('album[artist_id]', _this.state.artistId);
-      form.append('album[title]', _this.state.title);
-      form.append('album[year]', _this.state.year);
+
+      if (isUpload) {
+        form.append('album[img]', photo);
+      } else {
+        form.append('img_url', photoUrl);
+      }
+
+      form.append('album[artist_id]', artistId);
+      form.append('album[title]', title);
+      form.append('album[year]', year);
+      form.append('is_upload', isUpload);
 
       _this.props.submit(form);
     });
@@ -11716,7 +11751,7 @@ function (_Component) {
         className: "create-modal-content"
       }, React.createElement("form", {
         onSubmit: this.submit
-      }, React.createElement("h2", null, "Add New Album"), React.createElement("p", null, "If you can't find an album you're looking for here, you can add it below:"), React.createElement("div", {
+      }, React.createElement("h2", null, "Add New Album"), React.createElement("p", null, "If you're looking for an album that doesn't exist yet you can add it below. If the artist of the album doesn't exist either, you'll need to add them first via the link in the sidebar. You can upload the album art manually if you have it, or you can paste a link to a hosted image in the field below:"), React.createElement("div", {
         className: "image-input"
       }, React.createElement("img", {
         src: this.state.photoUrl || '#'
@@ -11724,6 +11759,10 @@ function (_Component) {
         type: "file",
         onChange: this.fileChange
       })), React.createElement("input", {
+        type: "text",
+        onChange: this.addImageLink,
+        placeholder: "Link to Album Image..."
+      }), React.createElement("input", {
         type: "text",
         value: this.state.title,
         onChange: this.titleChange,
@@ -11833,7 +11872,8 @@ function (_Component) {
     _defineProperty(_assertThisInitialized(_this), "state", {
       name: '',
       photo: null,
-      photoUrl: ''
+      photoUrl: '',
+      isUpload: false
     });
 
     _defineProperty(_assertThisInitialized(_this), "nameChange", function (e) {
@@ -11849,20 +11889,39 @@ function (_Component) {
       reader.onloadend = function () {
         return _this.setState({
           photoUrl: reader.result,
-          photo: file
+          photo: file,
+          isUpload: true
         });
       };
 
       if (file) reader.readAsDataURL(file);
     });
 
+    _defineProperty(_assertThisInitialized(_this), "addImageLink", function (e) {
+      _this.setState({
+        photoUrl: e.target.value,
+        isUpload: false
+      });
+    });
+
     _defineProperty(_assertThisInitialized(_this), "submit", function (e) {
       e.preventDefault();
-      var photo = _this.state.photo;
-      if (photo === null) return _this.props.close();
+      var _this$state = _this.state,
+          photo = _this$state.photo,
+          name = _this$state.name,
+          isUpload = _this$state.isUpload,
+          photoUrl = _this$state.photoUrl;
+      if (photo === null && isUpload) return _this.props.close();
       var form = new FormData();
-      form.append('artist[img]', _this.state.photo);
-      form.append('artist[name]', _this.state.name);
+
+      if (isUpload) {
+        form.append('artist[img]', photo);
+      } else {
+        form.append('img_url', photoUrl);
+      }
+
+      form.append('artist[name]', name);
+      form.append('is_upload', isUpload);
 
       _this.props.submit(form);
     });
@@ -11886,7 +11945,7 @@ function (_Component) {
         className: "create-modal-content"
       }, React.createElement("form", {
         onSubmit: this.submit
-      }, React.createElement("h2", null, "Add New Artist"), React.createElement("p", null, "If you can't find an artist you're looking for here, you can add them below:"), React.createElement("div", {
+      }, React.createElement("h2", null, "Add New Artist"), React.createElement("p", null, "If you can't find an artist you're looking for here, you can add them below. Upload your own photo of the artist by clicking the image below, or paste a url:"), React.createElement("div", {
         className: "image-input"
       }, React.createElement("img", {
         src: this.state.photoUrl || '#'
@@ -11894,6 +11953,10 @@ function (_Component) {
         type: "file",
         onChange: this.fileChange
       })), React.createElement("input", {
+        type: "text",
+        onChange: this.addImageLink,
+        placeholder: "Link to Artist Image..."
+      }), React.createElement("input", {
         type: "text",
         value: this.state.name,
         onChange: this.nameChange,
@@ -11919,6 +11982,231 @@ var mdp = function mdp(dispatch) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (connect(null, mdp)(NewArtistModal));
+
+/***/ }),
+
+/***/ "./react/App/Modal/NewPlaylistModal.js":
+/*!*********************************************!*\
+  !*** ./react/App/Modal/NewPlaylistModal.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _reducers_ui_modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../reducers/ui/modal */ "./react/reducers/ui/modal.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions */ "./react/actions/index.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only"); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var _ReactRedux = ReactRedux,
+    connect = _ReactRedux.connect;
+var _React = React,
+    Component = _React.Component;
+
+var NewPlaylistModal =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(NewPlaylistModal, _Component);
+
+  function NewPlaylistModal() {
+    var _getPrototypeOf2;
+
+    var _this;
+
+    _classCallCheck(this, NewPlaylistModal);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(NewPlaylistModal)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+    _defineProperty(_assertThisInitialized(_this), "state", {
+      name: '',
+      photo: null,
+      photoUrl: '',
+      selectedSongs: {},
+      selectedSongIds: []
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "nameChange", function (e) {
+      return _this.setState({
+        name: e.target.value
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "fileChange", function (e) {
+      var reader = new FileReader();
+      var file = e.currentTarget.files[0];
+
+      reader.onloadend = function () {
+        return _this.setState({
+          photoUrl: reader.result,
+          photo: file
+        });
+      };
+
+      if (file) reader.readAsDataURL(file);
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "toggleSelect", function (songId) {
+      var _this$state = _this.state,
+          selectedSongIds = _this$state.selectedSongIds,
+          selectedSongs = _this$state.selectedSongs;
+      var newSelected = Object.assign({}, selectedSongs);
+
+      var newSongs = _toConsumableArray(selectedSongIds);
+
+      var songIsAlreadySelected = !!selectedSongs[songId];
+
+      if (songIsAlreadySelected) {
+        delete newSelected[songId];
+        newSongs = newSongs.filter(function (id) {
+          return id != songId;
+        });
+      } else {
+        newSelected[songId] = true;
+        newSongs.push(songId);
+      }
+
+      _this.setState({
+        selectedSongs: newSelected,
+        selectedSongIds: newSongs
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "selectedMarker", function (songId) {
+      if (!_this.state.selectedSongs[songId]) return null;
+
+      var ord = _this.state.selectedSongIds.findIndex(function (el) {
+        return el == songId;
+      });
+
+      return React.createElement("span", null, ord + 1);
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "isSelected", function (songId) {
+      return !!_this.state.selectedSongs[songId];
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "submit", function (e) {
+      e.preventDefault();
+      var _this$state2 = _this.state,
+          photo = _this$state2.photo,
+          name = _this$state2.name,
+          selectedSongIds = _this$state2.selectedSongIds;
+      if (name === '') name = (_readOnlyError("name"), "Playlist_".concat(Math.floor(Math.random() * 10000)));
+      var form = new FormData();
+      form.append('playlist[img]', photo);
+      form.append('playlist[name]', name);
+      selectedSongIds.forEach(function (song, ord) {
+        form.append("playlist_songs[".concat(song, "]"), ord);
+      });
+
+      _this.props.submit(form);
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "close", function (e) {
+      if (e.target.className === 'create-modal') {
+        _this.props.close();
+      }
+    });
+
+    return _this;
+  }
+
+  _createClass(NewPlaylistModal, [{
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      return React.createElement("div", {
+        className: "create-modal",
+        onClick: this.close
+      }, React.createElement("div", {
+        className: "create-modal-content new-playlist-modal"
+      }, React.createElement("form", {
+        onSubmit: this.submit
+      }, React.createElement("h2", null, "Create New Playlist"), React.createElement("p", null, "Give your playlist a name and an image of your choice. You can also pick some songs from below to get started (you can add more songs to your playlist later)"), React.createElement("div", {
+        className: "image-input"
+      }, React.createElement("img", {
+        src: this.state.photoUrl || '#'
+      }), React.createElement("input", {
+        type: "file",
+        onChange: this.fileChange
+      })), React.createElement("input", {
+        type: "text",
+        value: this.state.name,
+        onChange: this.nameChange,
+        placeholder: "Playlist Name..."
+      }), React.createElement("ul", {
+        className: "playlist-create-song-list"
+      }, React.createElement("p", null, "(Optional) Add some songs:"), this.props.songs.map(function (song) {
+        return React.createElement("li", {
+          onClick: function onClick() {
+            return _this2.toggleSelect(song.id);
+          },
+          className: _this2.isSelected(song.id) ? 'playlist-selected' : ''
+        }, React.createElement("p", null, song.title), React.createElement("p", null, _this2.selectedMarker(song.id)));
+      })), React.createElement("button", null, "Save"))));
+    }
+  }]);
+
+  return NewPlaylistModal;
+}(Component);
+
+var msp = function msp(state) {
+  return {
+    songs: Object.values(state.entities.songs).sort(function (s1, s2) {
+      return s1.title < s2.title ? 1 : -1;
+    })
+  };
+};
+
+var mdp = function mdp(dispatch) {
+  return {
+    close: function close() {
+      return dispatch({
+        type: _reducers_ui_modal__WEBPACK_IMPORTED_MODULE_0__["CLOSE_ANY"]
+      });
+    },
+    submit: function submit(form) {
+      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_1__["createPlaylist"])(form));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (connect(msp, mdp)(NewPlaylistModal));
 
 /***/ }),
 
@@ -12392,8 +12680,10 @@ function (_Component) {
       return document.getElementById('searchbox').value;
     });
 
-    _defineProperty(_assertThisInitialized(_this), "search", function () {
-      return _this.props.search(_this.inputValue());
+    _defineProperty(_assertThisInitialized(_this), "search", function (e) {
+      if (e.key === 'Enter') e.preventDefault();
+
+      _this.props.search(_this.inputValue());
     });
 
     _defineProperty(_assertThisInitialized(_this), "render", function () {
@@ -12474,10 +12764,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _NewArtistModal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NewArtistModal */ "./react/App/Modal/NewArtistModal.js");
 /* harmony import */ var _NewAlbumModal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NewAlbumModal */ "./react/App/Modal/NewAlbumModal.js");
 /* harmony import */ var _NewSongModal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./NewSongModal */ "./react/App/Modal/NewSongModal.js");
-var _React = React,
-    Component = _React.Component;
+/* harmony import */ var _NewPlaylistModal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./NewPlaylistModal */ "./react/App/Modal/NewPlaylistModal.js");
 var _ReactRedux = ReactRedux,
     connect = _ReactRedux.connect;
+
 
 
 
@@ -12494,6 +12784,9 @@ var Modal = function Modal(_ref) {
 
     case 'newSong':
       return React.createElement(_NewSongModal__WEBPACK_IMPORTED_MODULE_2__["default"], null);
+
+    case 'newPlaylist':
+      return React.createElement(_NewPlaylistModal__WEBPACK_IMPORTED_MODULE_3__["default"], null);
 
     default:
       return React.createElement("div", null);
@@ -12984,7 +13277,7 @@ var _ReactRouter = ReactRouter,
 /*!********************************!*\
   !*** ./react/actions/index.js ***!
   \********************************/
-/*! exports provided: RECEIVE_CURRENT_USER, REMOVE_CURRENT_USER, RECEIVE_SESSION_ERRORS, CLEAR_ERRORS, SELECT_SONG, PLAY, PAUSE, RECEIVE_YOUTUBE, RECEIVE_SONG_PROGRESS, RECEIVE_SONG, RECEIVE_MUSIC, signup, login, logout, clear, fetchSongs, fetchAlbums, fetchAlbum, fetchArtists, selectSong, play, pause, seekLeft, seekRight, playFirst, createArtist, createAlbum, searchYoutube, createSong, createYoutubeSong, search */
+/*! exports provided: RECEIVE_CURRENT_USER, REMOVE_CURRENT_USER, RECEIVE_SESSION_ERRORS, CLEAR_ERRORS, SELECT_SONG, PLAY, PAUSE, RECEIVE_YOUTUBE, RECEIVE_SONG_PROGRESS, RECEIVE_SONG, RECEIVE_MUSIC, signup, login, logout, clear, fetchSongs, fetchAlbums, fetchAlbum, fetchArtists, selectSong, play, pause, seekLeft, seekRight, playFirst, createArtist, createAlbum, searchYoutube, createSong, createYoutubeSong, search, createPlaylist */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13020,6 +13313,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createSong", function() { return createSong; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createYoutubeSong", function() { return createYoutubeSong; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "search", function() { return search; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createPlaylist", function() { return createPlaylist; });
 /* harmony import */ var _secret__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./secret */ "./react/actions/secret.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
@@ -13295,6 +13589,22 @@ var search = function search(query) {
     return $.ajax({
       method: 'get',
       url: "/api/search?query=".concat(query)
+    }).then(function (payload) {
+      return dispatch({
+        type: RECEIVE_MUSIC,
+        payload: payload
+      });
+    });
+  };
+};
+var createPlaylist = function createPlaylist(form) {
+  return function (dispatch) {
+    return $.ajax({
+      method: 'post',
+      url: '/api/playlists',
+      data: form,
+      processData: false,
+      contentType: false
     }).then(function (payload) {
       return dispatch({
         type: RECEIVE_MUSIC,
@@ -14949,8 +15259,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _albums__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./albums */ "./react/reducers/entities/albums.js");
 /* harmony import */ var _artists__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./artists */ "./react/reducers/entities/artists.js");
 /* harmony import */ var _search__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./search */ "./react/reducers/entities/search.js");
+/* harmony import */ var _playlists__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./playlists */ "./react/reducers/entities/playlists.js");
+/* harmony import */ var _playlist_songs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./playlist_songs */ "./react/reducers/entities/playlist_songs.js");
 var _Redux = Redux,
     combineReducers = _Redux.combineReducers;
+
+
 
 
 
@@ -14961,8 +15275,68 @@ var _Redux = Redux,
   songs: _songs__WEBPACK_IMPORTED_MODULE_1__["default"],
   albums: _albums__WEBPACK_IMPORTED_MODULE_2__["default"],
   artists: _artists__WEBPACK_IMPORTED_MODULE_3__["default"],
-  search: _search__WEBPACK_IMPORTED_MODULE_4__["default"]
+  search: _search__WEBPACK_IMPORTED_MODULE_4__["default"],
+  playlists: _playlists__WEBPACK_IMPORTED_MODULE_5__["default"],
+  playlist_songs: _playlist_songs__WEBPACK_IMPORTED_MODULE_6__["default"]
 }));
+
+/***/ }),
+
+/***/ "./react/reducers/entities/playlist_songs.js":
+/*!***************************************************!*\
+  !*** ./react/reducers/entities/playlist_songs.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions */ "./react/actions/index.js");
+
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  var type = action.type,
+      payload = action.payload;
+
+  switch (type) {
+    case _actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_MUSIC"]:
+      if (payload.playlistSongs) return Object.assign({}, state, action.payload.playlistSongs);
+      return state;
+
+    default:
+      return state;
+  }
+});
+
+/***/ }),
+
+/***/ "./react/reducers/entities/playlists.js":
+/*!**********************************************!*\
+  !*** ./react/reducers/entities/playlists.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions */ "./react/actions/index.js");
+
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  var type = action.type,
+      payload = action.payload;
+
+  switch (type) {
+    case _actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_MUSIC"]:
+      if (payload.playlists) return Object.assign({}, state, action.payload.playlists);
+      return state;
+
+    default:
+      return state;
+  }
+});
 
 /***/ }),
 
@@ -15193,7 +15567,7 @@ var _Redux = Redux,
 /*!************************************!*\
   !*** ./react/reducers/ui/modal.js ***!
   \************************************/
-/*! exports provided: CLOSE_ANY, OPEN_NEW_ARTIST, OPEN_NEW_ALBUM, OPEN_NEW_SONG, default */
+/*! exports provided: CLOSE_ANY, OPEN_NEW_ARTIST, OPEN_NEW_ALBUM, OPEN_NEW_SONG, OPEN_NEW_PLAYLIST, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15202,12 +15576,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OPEN_NEW_ARTIST", function() { return OPEN_NEW_ARTIST; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OPEN_NEW_ALBUM", function() { return OPEN_NEW_ALBUM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OPEN_NEW_SONG", function() { return OPEN_NEW_SONG; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OPEN_NEW_PLAYLIST", function() { return OPEN_NEW_PLAYLIST; });
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions */ "./react/actions/index.js");
 
 var CLOSE_ANY = 'CLOSE_ANY';
 var OPEN_NEW_ARTIST = 'OPEN_NEW_ARTIST';
 var OPEN_NEW_ALBUM = 'OPEN_NEW_ALBUM';
 var OPEN_NEW_SONG = 'OPEN_NEW_SONG';
+var OPEN_NEW_PLAYLIST = 'OPEN_NEW_PLAYLIST';
 /* harmony default export */ __webpack_exports__["default"] = (function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
   var action = arguments.length > 1 ? arguments[1] : undefined;
@@ -15222,9 +15598,15 @@ var OPEN_NEW_SONG = 'OPEN_NEW_SONG';
     case OPEN_NEW_SONG:
       return 'newSong';
 
+    case OPEN_NEW_PLAYLIST:
+      return 'newPlaylist';
+
     case CLOSE_ANY:
-    case _actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_MUSIC"]:
       return null;
+
+    case _actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_SONG_PROGRESS"]:
+      if (action.songProgress == 100) return null;
+      return state;
 
     default:
       return state;

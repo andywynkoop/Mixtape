@@ -1,8 +1,8 @@
-const { Component } = React;
 const { connect } = ReactRedux;
 import NewArtistModal from './NewArtistModal';
 import NewAlbumModal from './NewAlbumModal';
 import NewSongModal from './NewSongModal';
+import NewPlaylistModal from './NewPlaylistModal';
 
 const Modal = ({ modal }) => {
 	switch (modal) {
@@ -12,6 +12,8 @@ const Modal = ({ modal }) => {
 			return <NewAlbumModal />;
 		case 'newSong':
 			return <NewSongModal />;
+		case 'newPlaylist':
+			return <NewPlaylistModal />;
 		default:
 			return <div />;
 	}

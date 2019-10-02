@@ -82,6 +82,37 @@
 		border: none;
 		margin-top: 20px;
 		border-radius: 3px;
+		margin-bottom: 20px;
+	}
+}
+
+.create-modal-content.new-playlist-modal {
+	ul {
+		height: 200px;
+		overflow-y: scroll;
+		margin-top: 15px;
+		padding: 10px;
+		background: #0b0216;
+
+		> p {
+			margin: 0 0 10px 0;
+		}
+
+		li {
+			display: flex;
+			justify-content: space-between;
+			cursor: pointer;
+			p {
+				margin: 0;
+			}
+		}
+
+		li.playlist-selected {
+			p {
+				color: #de6a9e;
+				text-shadow: 0px 0px 0.5px #de6a9e;
+			}
+		}
 	}
 }
 
@@ -162,7 +193,7 @@
 	li {
 		border-radius: 8px 8px 0px 0px;
 		background: rgb(22, 3, 44);
-		margin: 20px -1px 0px -1px;
+		margin: 0px -1px 0px -1px;
 		padding: 10px;
 		width: 55%;
 		border: solid 1px #370b72;

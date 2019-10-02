@@ -1,6 +1,11 @@
+require 'open-uri'
+
 class Api::ArtistsController < ApplicationController
   def create
-    @artist = Artist.create(artist_params)
+    @artist = Artist.new(artist_params)
+    if (params[:is_upload] == "false") 
+      @artist.img.attach(io: open(params[:img_url]), filename: "#{params[:artist][:name]}_upload")
+    end
     if @artist.save
       render :show
     else

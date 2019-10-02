@@ -21,7 +21,9 @@ class Artists extends Component {
 }
 
 const msp = (state, { artists }) => ({
-	artists: artists || Object.values(state.entities.artists),
+	artists: (artists || Object.values(state.entities.artists)).sort((a1, a2) =>
+		a1.name > a2.name ? 1 : -1
+	),
 });
 
 const mdp = dispatch => ({

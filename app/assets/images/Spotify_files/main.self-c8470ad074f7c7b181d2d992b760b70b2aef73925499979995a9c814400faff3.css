@@ -307,6 +307,7 @@
 	position: absolute;
 	left: 15px;
 	top: 15px;
+	cursor: pointer;
 }
 /* line 290, /Users/andywynkoop/Desktop/search/projects/Spotify/app/assets/stylesheets/main.scss */
 .player .song-info img {

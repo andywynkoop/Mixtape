@@ -30,7 +30,7 @@ class Album extends Component {
 						/>
 					))}
 				</ul>
-				<Link to="/browse">
+				<Link to="/browse/albums">
 					<button className="album-back">
 						<i className="fas fa-chevron-left" />
 					</button>

@@ -160,3 +160,12 @@ export const search = query => dispatch =>
 		method: 'get',
 		url: `/api/search?query=${query}`,
 	}).then(payload => dispatch({ type: RECEIVE_MUSIC, payload }));
+
+export const createPlaylist = form => dispatch =>
+	$.ajax({
+		method: 'post',
+		url: '/api/playlists',
+		data: form,
+		processData: false,
+		contentType: false,
+	}).then(payload => dispatch({ type: RECEIVE_MUSIC, payload }));

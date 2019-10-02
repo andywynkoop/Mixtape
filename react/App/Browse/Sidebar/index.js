@@ -2,8 +2,9 @@ const { connect } = ReactRedux;
 const { Link } = ReactRouter;
 import { logout } from '../../../actions';
 import SidebarModalLinks from './SidebarModalLinks';
+import { OPEN_NEW_PLAYLIST } from '../../../reducers/ui/modal';
 
-const Sidebar = ({ logout }) => (
+const Sidebar = ({ logout, newPlaylist }) => (
 	<div className="sidebar">
 		<Link to="/browse">
 			<img
@@ -28,7 +29,9 @@ const Sidebar = ({ logout }) => (
 		</ul>
 		<p>Contribute</p>
 		<SidebarModalLinks />
-		<button className="new-playlist">New Playlist</button>
+		<button onClick={newPlaylist} className="new-playlist">
+			New Playlist
+		</button>
 		<button onClick={logout} className="logout">
 			Log Out
 		</button>
@@ -45,6 +48,7 @@ const Sidebar = ({ logout }) => (
 
 const mdtp = dispatch => ({
 	logout: () => dispatch(logout()),
+	newPlaylist: () => dispatch({ type: OPEN_NEW_PLAYLIST }),
 });
 
 export default connect(

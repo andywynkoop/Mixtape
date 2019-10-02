@@ -8,6 +8,7 @@ class NewArtistModal extends Component {
 		name: '',
 		photo: null,
 		photoUrl: '',
+		isUpload: false,
 	};
 
 	nameChange = e => this.setState({ name: e.target.value });
@@ -16,18 +17,31 @@ class NewArtistModal extends Component {
 		const reader = new FileReader();
 		const file = e.currentTarget.files[0];
 		reader.onloadend = () =>
-			this.setState({ photoUrl: reader.result, photo: file });
+			this.setState({
+				photoUrl: reader.result,
+				photo: file,
+				isUpload: true,
+			});
 
 		if (file) reader.readAsDataURL(file);
 	};
 
+	addImageLink = e => {
+		this.setState({ photoUrl: e.target.value, isUpload: false });
+	};
+
 	submit = e => {
 		e.preventDefault();
-		const { photo } = this.state;
-		if (photo === null) return this.props.close();
+		const { photo, name, isUpload, photoUrl } = this.state;
+		if (photo === null && isUpload) return this.props.close();
 		const form = new FormData();
-		form.append('artist[img]', this.state.photo);
-		form.append('artist[name]', this.state.name);
+		if (isUpload) {
+			form.append('artist[img]', photo);
+		} else {
+			form.append('img_url', photoUrl);
+		}
+		form.append('artist[name]', name);
+		form.append('is_upload', isUpload);
 		this.props.submit(form);
 	};
 
@@ -45,12 +59,18 @@ class NewArtistModal extends Component {
 						<h2>Add New Artist</h2>
 						<p>
 							If you can't find an artist you're looking for here,
-							you can add them below:
+							you can add them below. Upload your own photo of the
+							artist by clicking the image below, or paste a url:
 						</p>
 						<div className="image-input">
 							<img src={this.state.photoUrl || '#'} />
 							<input type="file" onChange={this.fileChange} />
 						</div>
+						<input
+							type="text"
+							onChange={this.addImageLink}
+							placeholder="Link to Artist Image..."
+						/>
 						<input
 							type="text"
 							value={this.state.name}

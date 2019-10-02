@@ -22,7 +22,9 @@ class Albums extends Component {
 }
 
 const mstp = (state, { albums }) => ({
-	albums: albums || Object.values(state.entities.albums),
+	albums: (albums || Object.values(state.entities.albums)).sort((a1, a2) =>
+		a1.title > a2.title ? 1 : -1
+	),
 });
 
 const mdtp = dispatch => ({

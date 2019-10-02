@@ -1,10 +1,15 @@
+require 'open-uri'
+
 class Api::AlbumsController < ApplicationController 
   def create
     @album = Album.new(album_params)
+    if (params[:is_upload] == "false") 
+      @album.img.attach(io: open(params[:img_url]), filename: "#{params[:album][:title]}_upload")
+    end
     if @album.save
       render :show
     else
-      render @album.errors.full_messages
+      render json: @album.errors.full_messages
     end
   end
   

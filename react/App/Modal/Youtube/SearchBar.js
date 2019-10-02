@@ -11,7 +11,10 @@ class SearchBar extends Component {
 
 	inputValue = () => document.getElementById('searchbox').value;
 
-	search = () => this.props.search(this.inputValue());
+	search = e => {
+		if (e.key === 'Enter') e.preventDefault();
+		this.props.search(this.inputValue());
+	};
 
 	render = () => (
 		<input
