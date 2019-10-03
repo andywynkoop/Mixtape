@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	};
 	const receiveDebounced = receiveSong.debounce(1000);
 	io.on('newSong', receiveDebounced);
+
 	// react render
 	React.render(
 		<Provider store={store} Component={App} />,

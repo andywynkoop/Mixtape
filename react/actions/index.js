@@ -62,6 +62,12 @@ export const fetchArtists = () => dispatch =>
 		url: '/api/artists',
 	}).then(payload => dispatch({ type: RECEIVE_MUSIC, payload }));
 
+export const fetchArtist = id => dispatch =>
+	$.ajax({
+		method: 'get',
+		url: `/api/artists/${id}`,
+	}).then(payload => dispatch({ type: RECEIVE_MUSIC, payload }));
+
 const rotateQueue = (id, queue) => {
 	const idx = queue.findIndex(songId => songId == id);
 	const firstPart = queue.slice(0, idx);
@@ -168,4 +174,10 @@ export const createPlaylist = form => dispatch =>
 		data: form,
 		processData: false,
 		contentType: false,
+	}).then(payload => dispatch({ type: RECEIVE_MUSIC, payload }));
+
+export const fetchPlaylists = () => dispatch =>
+	$.ajax({
+		method: 'get',
+		url: '/api/playlists',
 	}).then(payload => dispatch({ type: RECEIVE_MUSIC, payload }));

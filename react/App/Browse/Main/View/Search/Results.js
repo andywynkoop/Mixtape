@@ -7,8 +7,8 @@ const { connect } = ReactRedux;
 const Results = ({ artists, albums, songs }) => (
 	<div>
 		<Artists artists={artists} />
-		<Songs songs={songs} />
 		<Albums albums={albums} />
+		<Songs songs={songs} />
 	</div>
 );
 

@@ -17,7 +17,7 @@ class ArtistItem extends Component {
 					<i className={`fas fa-${isPlaying ? 'pause' : 'play'}`} />
 					<img src={artist.img} />
 				</div>
-				<Link to={`/artists/${artist.id}`}>
+				<Link to={`/browse/artists/${artist.id}`}>
 					<p>{artist.name}</p>
 				</Link>
 			</li>

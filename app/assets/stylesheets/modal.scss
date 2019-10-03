@@ -1,3 +1,10 @@
+$dark-blue-1: #0b0216;
+$dark-blue-2: #090216;
+$dark-blue-3: #0e0324;
+$light-purple: #25074d;
+$lighter-purple: #370b72;
+$pink-1: #de6a9e;
+
 .create-modal-links,
 .sidebar-page-links {
 	margin-top: 5px;
@@ -74,7 +81,7 @@
 	}
 
 	button {
-		background: #370b72;
+		background: $light-purple;
 		color: white;
 		display: block;
 		margin: auto;
@@ -92,7 +99,7 @@
 		overflow-y: scroll;
 		margin-top: 15px;
 		padding: 10px;
-		background: #0b0216;
+		background: $dark-blue-1;
 
 		> p {
 			margin: 0 0 10px 0;
@@ -109,8 +116,8 @@
 
 		li.playlist-selected {
 			p {
-				color: #de6a9e;
-				text-shadow: 0px 0px 0.5px #de6a9e;
+				color: $pink-1;
+				text-shadow: 0px 0px 0.5px $pink-1;
 			}
 		}
 	}
@@ -192,22 +199,22 @@
 	display: flex;
 	li {
 		border-radius: 8px 8px 0px 0px;
-		background: rgb(22, 3, 44);
+		background: $dark-blue-3;
 		margin: 0px -1px 0px -1px;
 		padding: 10px;
 		width: 55%;
-		border: solid 1px #370b72;
+		border: solid 1px $lighter-purple;
 		cursor: pointer;
 	}
 
 	li.active {
-		background: rgb(19, 3, 37);
+		background: $dark-blue-2;
 		border-bottom: none;
 	}
 }
 
 .modal-tab-view {
-	background: rgb(19, 3, 37);
+	background: $dark-blue-2;
 	padding: 15px 0px 20px 0px;
 }
 

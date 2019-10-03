@@ -10,6 +10,7 @@ export default (state = false, action) => {
 			return false;
 		case REMOVE_CURRENT_USER:
 			if (window.audio) window.audio.pause();
+			document.getElementsByTagName('title')[0].innerText = 'Mixtape';
 			delete window.audio;
 			return false;
 		default:

@@ -3,6 +3,7 @@ const { connect } = ReactRedux;
 import SearchBar from './Youtube/SearchBar';
 import SearchResults from './Youtube/SearchResults';
 import Preview from './Youtube/Preview';
+import Loading from './Youtube/Loading';
 
 class UploadTypeToggle extends Component {
 	state = {
@@ -71,7 +72,7 @@ class UploadTypeToggle extends Component {
 							/>
 						</div>
 					) : (
-						<div>Loading: {this.props.progress}%</div>
+						<Loading progress={this.props.progress} />
 					)}
 				</div>
 			</div>

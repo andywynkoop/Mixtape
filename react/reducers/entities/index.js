@@ -5,7 +5,7 @@ import albums from './albums';
 import artists from './artists';
 import search from './search';
 import playlists from './playlists';
-import playlist_songs from './playlist_songs';
+import playlistSongs from './playlistSongs';
 
 export default combineReducers({
 	users,
@@ -14,5 +14,5 @@ export default combineReducers({
 	artists,
 	search,
 	playlists,
-	playlist_songs,
+	playlistSongs,
 });

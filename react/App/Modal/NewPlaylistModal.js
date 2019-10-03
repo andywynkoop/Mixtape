@@ -1,5 +1,5 @@
 import { CLOSE_ANY } from '../../reducers/ui/modal';
-import { createPlaylist } from '../../actions';
+import { createPlaylist, fetchSongs } from '../../actions';
 const { connect } = ReactRedux;
 const { Component } = React;
 
@@ -11,6 +11,9 @@ class NewPlaylistModal extends Component {
 		selectedSongs: {},
 		selectedSongIds: [],
 	};
+	componentDidMount() {
+		this.props.fetchSongs();
+	}
 
 	nameChange = e => this.setState({ name: e.target.value });
 
@@ -63,6 +66,7 @@ class NewPlaylistModal extends Component {
 			form.append(`playlist_songs[${song}]`, ord);
 		});
 		this.props.submit(form);
+		this.props.close();
 	};
 
 	close = e => {
@@ -119,13 +123,14 @@ class NewPlaylistModal extends Component {
 
 const msp = state => ({
 	songs: Object.values(state.entities.songs).sort((s1, s2) =>
-		s1.title < s2.title ? 1 : -1
+		s1.title > s2.title ? 1 : -1
 	),
 });
 
 const mdp = dispatch => ({
 	close: () => dispatch({ type: CLOSE_ANY }),
 	submit: form => dispatch(createPlaylist(form)),
+	fetchSongs: () => dispatch(fetchSongs()),
 });
 
 export default connect(

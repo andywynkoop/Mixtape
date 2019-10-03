@@ -4,6 +4,8 @@ json.playlists do
   json.set! @playlist.id do
     json.extract! @playlist, :id, :name, :creator_id
     json.playlist_song_ids @playlist.playlist_songs.map(&:id)
+    json.song_count @playlist.playlist_songs.count
+    json.img url_for(@playlist.img) if @playlist.img.attached?
   end
 end
 

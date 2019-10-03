@@ -51,6 +51,7 @@ class NewAlbumModal extends Component {
 		form.append('album[year]', year);
 		form.append('is_upload', isUpload);
 		this.props.submit(form);
+		this.props.close();
 	};
 
 	close = e => {

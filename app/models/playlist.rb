@@ -18,4 +18,6 @@ class Playlist < ApplicationRecord
   has_many :artists,
     through: :albums,
     source: :artist
+  
+  has_one_attached :img
 end

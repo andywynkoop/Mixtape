@@ -10,6 +10,7 @@ class Songs extends Component {
 
 	render() {
 		const { artists } = this.props;
+		if (!Object.keys(artists).length) return <div />;
 		return (
 			<ul>
 				{this.props.songs.map(song => (

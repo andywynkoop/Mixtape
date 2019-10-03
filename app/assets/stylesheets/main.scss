@@ -5,6 +5,7 @@ $blue2: #0ac5e6;
 $grey: #29212ecc;
 $purple: #7708b8;
 $purple2: #5d0391;
+$pink-1: #de6a9e;
 
 .nav {
 	height: 90px;
@@ -468,6 +469,7 @@ $purple2: #5d0391;
 .albums {
 	display: flex;
 	flex-wrap: wrap;
+	padding-left: 30px;
 }
 
 .album-show {
@@ -527,6 +529,110 @@ $purple2: #5d0391;
 		font-size: 24px;
 		bottom: 30px;
 		left: 30px;
+	}
+}
+.artist-show {
+	height: 100%;
+	margin-top: -60px;
+	.artist-show-jumbotron {
+		position: relative;
+		margin-bottom: 30px;
+
+		img {
+			width: 100%;
+			height: 300px;
+			object-fit: cover;
+		}
+
+		h5 {
+			position: absolute;
+			bottom: 30px;
+			left: 30px;
+			font-size: 60px;
+			color: white;
+			text-shadow: 0px 0px 5px #666;
+		}
+
+		button {
+			position: absolute;
+			bottom: 30px;
+			right: 20px;
+			padding: 10px 20px;
+			color: white;
+			border-radius: 20px;
+			box-shadow: 0px 0px 5px #666;
+			text-shadow: 0px 0px 5px #666;
+		}
+
+		button:hover {
+			border-color: $pink-1;
+			box-shadow: 0px 0px 5px $pink-1;
+		}
+	}
+}
+
+.artist-back {
+	position: fixed;
+	top: 30px;
+	left: 230px;
+	border: none;
+	font-size: 40px;
+	color: white;
+}
+
+.artist-back:hover {
+	color: $pink-1;
+}
+
+.playlist-item {
+	display: flex;
+	justify-content: space-between;
+	padding: 10px;
+	> div {
+		display: flex;
+	}
+
+	> i {
+		position: relative;
+		top: 20px;
+		right: 20px;
+		cursor: pointer;
+		color: greenyellow;
+	}
+}
+.playlist-icon-container {
+	position: relative;
+	img {
+		height: 60px;
+	}
+	i {
+		position: absolute;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		font-size: 30px;
+		padding-top: 15px;
+		padding-left: 20px;
+		display: none;
+		background: rgba(0, 0, 0, 0.3);
+	}
+}
+
+.playlist-icon-container:hover i,
+.playlist-icon-container .fa-pause {
+	display: block;
+}
+
+.playlist-info {
+	margin: 10px 15px;
+	h4 {
+		font-size: 14px;
+		color: greenyellow;
+	}
+	p {
+		font-size: 10px;
+		color: #ddd;
 	}
 }
 

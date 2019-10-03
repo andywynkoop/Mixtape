@@ -43,6 +43,7 @@ class NewArtistModal extends Component {
 		form.append('artist[name]', name);
 		form.append('is_upload', isUpload);
 		this.props.submit(form);
+		this.props.close();
 	};
 
 	close = e => {

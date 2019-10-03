@@ -8,6 +8,10 @@ class User < ApplicationRecord
     foreign_key: :creator_id,
     class_name: :Playlist,
     dependent: :destroy
+  
+  has_many :playlist_songs,
+    through: :playlists,
+    source: :playlist_songs
 
   before_validation :ensure_session_token
 

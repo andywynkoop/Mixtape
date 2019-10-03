@@ -12,6 +12,7 @@ class Player extends Component {
 	componentWillUnmount() {
 		clearInterval(this.progressCheck);
 		window.audio.pause();
+		this.removeTitle();
 		delete window.audio;
 	}
 
@@ -50,10 +51,15 @@ class Player extends Component {
 			} else {
 				window.audio.setAttribute('src', song.audio);
 				window.audio.play();
+				this.setTitle();
 			}
 		});
 	};
 
+	getTitleElement = () => document.getElementsByTagName('title')[0];
+	setTitle = () =>
+		(this.getTitleElement().innerText = `♫ ${this.props.song.title} - ${this.props.artist.name}`);
+	removeTitle = () => (this.getTitleElement().innerText = 'Mixtape');
 	componentDidUpdate(oldProps) {
 		const { song } = this.props;
 		if (!song) return;
@@ -63,9 +69,11 @@ class Player extends Component {
 
 		if (!oldProps.playing && this.props.playing) {
 			window.audio.play();
+			this.setTitle();
 			this.progressCheck = setInterval(this.setProgress, 1000);
 		} else if (oldProps.playing && !this.props.playing) {
 			window.audio.pause();
+			this.removeTitle();
 			clearInterval(this.progressCheck);
 		}
 	}
