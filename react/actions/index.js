@@ -147,9 +147,15 @@ export const searchYoutube = query => dispatch =>
 		url: `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=${query}&type=video&key=${API_KEY}`,
 	}).then(results => dispatch({ type: RECEIVE_YOUTUBE, results }));
 
-export const createSong = form => dispatch => {
-	debugger;
-};
+export const createSong = form => dispatch =>
+	$.ajax({
+		method: 'post',
+		url: '/api/manual_songs',
+		data: form,
+		processData: false,
+		contentType: false,
+	}).then(payload => dispatch({ type: RECEIVE_MUSIC, payload }));
+
 export const createYoutubeSong = data => dispatch =>
 	$.ajax({
 		method: 'post',
@@ -180,4 +186,10 @@ export const fetchPlaylists = () => dispatch =>
 	$.ajax({
 		method: 'get',
 		url: '/api/playlists',
+	}).then(payload => dispatch({ type: RECEIVE_MUSIC, payload }));
+
+export const fetchPlaylist = id => dispatch =>
+	$.ajax({
+		method: 'get',
+		url: `/api/playlists/${id}`,
 	}).then(payload => dispatch({ type: RECEIVE_MUSIC, payload }));

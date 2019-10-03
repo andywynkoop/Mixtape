@@ -11,7 +11,7 @@ class Album extends Component {
 	}
 
 	render() {
-		const { album, artist, songs } = this.props;
+		const { album, artist, songs, queue } = this.props;
 		if (!album) return <div />;
 		const { img, title } = album;
 		return (
@@ -19,7 +19,11 @@ class Album extends Component {
 				<div className="album-show-artist">
 					<img src={img} />
 					<h4>{title}</h4>
-					<h5>{artist.name}</h5>
+					<h5>
+						<Link to={`/browse/artists/${artist.id}`}>
+							{artist.name}
+						</Link>
+					</h5>
 				</div>
 				<ul>
 					{songs.map((song, i) => (
@@ -27,6 +31,7 @@ class Album extends Component {
 							artists={{ [artist.id]: artist }}
 							key={song.id}
 							song={song}
+							queue={queue}
 						/>
 					))}
 				</ul>
@@ -52,7 +57,7 @@ const mstp = (state, props) => {
 		);
 	}
 	return {
-		queue: state.ui.queue,
+		queue: songs.map(s => s.id),
 		album,
 		artist,
 		songs,
@@ -60,7 +65,6 @@ const mstp = (state, props) => {
 };
 
 const mdtp = (dispatch, props) => ({
-	selectSong: (id, queue) => dispatch(selectSong(id, queue)),
 	fetchAlbum: () => dispatch(fetchAlbum(props.match.params.albumId)),
 });
 

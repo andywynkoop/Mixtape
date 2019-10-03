@@ -1,5 +1,5 @@
 import { CLOSE_ANY } from '../../reducers/ui/modal';
-import { createYoutubeSong, createSong } from '../../actions';
+import { createYoutubeSong, createSong, fetchArtists } from '../../actions';
 const { connect } = ReactRedux;
 const { Component } = React;
 import UploadTypeToggle from './UploadTypeToggle';
@@ -9,11 +9,15 @@ class NewAlbumModal extends Component {
 		title: '',
 		albumId: -1,
 		artistId: -1,
-		photo: null,
+		audio: null,
 		photoUrl: '',
 		uploadType: 'manual',
 		videoId: null,
 	};
+
+	componentDidMount() {
+		this.props.fetchArtists();
+	}
 
 	switchType = newType => () => this.setState({ uploadType: newType });
 
@@ -29,7 +33,7 @@ class NewAlbumModal extends Component {
 		const reader = new FileReader();
 		const file = e.currentTarget.files[0];
 		reader.onloadend = () =>
-			this.setState({ photoUrl: reader.result, photo: file });
+			this.setState({ photoUrl: reader.result, audio: file });
 
 		if (file) reader.readAsDataURL(file);
 	};
@@ -43,13 +47,10 @@ class NewAlbumModal extends Component {
 				album_id: this.state.albumId,
 			});
 		} else {
-			console.log('WARNING - STILL NEED TO IMPLEMENT');
-			debugger;
-
 			const { photo } = this.state;
 			if (photo === null) return this.props.close();
 			const form = new FormData();
-			form.append('song[img]', this.state.photo);
+			form.append('song[audio]', this.state.audio);
 			form.append('song[album_id]', this.state.albumId);
 			form.append('song[title]', this.state.title);
 			this.props.submit(form);
@@ -138,6 +139,7 @@ const mdp = dispatch => ({
 	close: () => dispatch({ type: CLOSE_ANY }),
 	submit: form => dispatch(createSong(form)),
 	youtubeSubmit: songData => dispatch(createYoutubeSong(songData)),
+	fetchArtists: () => dispatch(fetchArtists()),
 });
 
 export default connect(

@@ -1,7 +1,7 @@
 import { selectSong, pause } from '../../../../../actions';
 const { connect } = ReactRedux;
 
-const Song = ({ song, thisSongIsPlaying, pause, play, artist }) => {
+const Song = ({ song, thisSongIsPlaying, pause, play, artist, img }) => {
 	let click, icon;
 	if (thisSongIsPlaying) {
 		click = pause;
@@ -10,16 +10,22 @@ const Song = ({ song, thisSongIsPlaying, pause, play, artist }) => {
 		click = play;
 		icon = <i className="fas fa-play" />;
 	}
+
+	const innerClick = e => {
+		e.stopPropagation();
+		window.location.replace(`/#/browse/artists/${artist.id}`);
+	};
+
 	return (
-		<li className="song">
-			<div onClick={click}>
+		<li className="song" onClick={click}>
+			<div>
 				<div className="song-icon-container">
-					<img src={artist.img} />
+					<img src={img || artist.img} />
 					{icon}
 				</div>
 				<div className="song-info">
 					<h4>{song.title}</h4>
-					<p>{artist.name}</p>
+					<p onClick={innerClick}>{artist.name}</p>
 				</div>
 			</div>
 			<i className="fas fa-ellipsis-h" />
@@ -37,7 +43,7 @@ const msp = (state, { artists, song }) => {
 
 const mdp = (dispatch, props) => ({
 	pause: () => dispatch(pause()),
-	play: () => dispatch(selectSong(props.song.id)),
+	play: () => dispatch(selectSong(props.song.id, props.queue)),
 });
 
 export default connect(

@@ -18,7 +18,14 @@ const setProgressByRotation = function(rotation) {
 };
 
 export default class Loading extends Component {
+	componentDidMount() {
+		this.setLoading();
+	}
 	componentDidUpdate() {
+		this.setLoading();
+	}
+
+	setLoading() {
 		const progress = this.props.progress || 0;
 		const rotation = Math.floor((progress * 180) / 100);
 		const elem = document.getElementsByClassName(

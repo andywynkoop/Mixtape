@@ -20,4 +20,6 @@ class Playlist < ApplicationRecord
     source: :artist
   
   has_one_attached :img
+
+  scope :with_img, -> { eager_load(img_attachment: :blob) }
 end

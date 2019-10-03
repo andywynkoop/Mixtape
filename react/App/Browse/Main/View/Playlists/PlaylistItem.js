@@ -1,4 +1,5 @@
 const { connect } = ReactRedux;
+const { Link } = ReactRouter;
 import { playFirst, pause } from '../../../../../actions';
 
 const PlaylistItem = ({
@@ -19,13 +20,17 @@ const PlaylistItem = ({
 
 	return (
 		<li className="playlist-item">
-			<div onClick={click}>
-				<div className="playlist-icon-container">
+			<div>
+				<div className="playlist-icon-container" onClick={click}>
 					<img src={playlist.img} />
 					{icon}
 				</div>
 				<div className="playlist-info">
-					<h4>{playlist.name}</h4>
+					<h4>
+						<Link to={`/browse/playlists/${playlist.id}`}>
+							{playlist.name}
+						</Link>
+					</h4>
 					<p>{playlist.songCount} Songs</p>
 				</div>
 			</div>

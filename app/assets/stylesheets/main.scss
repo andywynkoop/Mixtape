@@ -474,14 +474,13 @@ $pink-1: #de6a9e;
 
 .album-show {
 	display: flex;
-	height: 100%;
 
 	.song-icon-container img {
 		display: none;
 	}
 
 	.song-info {
-		margin-left: 70px !important;
+		margin-left: 70px;
 		width: 220px;
 		text-align: left;
 
@@ -494,7 +493,7 @@ $pink-1: #de6a9e;
 	.album-show-artist {
 		padding: 0px 40px 0px 20px;
 		img {
-			width: 400px;
+			width: 300px;
 		}
 	}
 
@@ -612,8 +611,8 @@ $pink-1: #de6a9e;
 		right: 0;
 		bottom: 0;
 		font-size: 30px;
-		padding-top: 15px;
-		padding-left: 20px;
+		padding-top: 16px;
+		padding-left: 16px;
 		display: none;
 		background: rgba(0, 0, 0, 0.3);
 	}
@@ -634,6 +633,24 @@ $pink-1: #de6a9e;
 		font-size: 10px;
 		color: #ddd;
 	}
+}
+
+.album-show.playlist {
+	.song-info {
+		margin-left: 20px;
+	}
+	.song .song-icon-container img {
+		display: block;
+	}
+}
+
+.playlist-back {
+	position: absolute;
+	border: none;
+	color: white;
+	font-size: 24px;
+	bottom: 30px;
+	left: 30px;
 }
 
 .search-view {

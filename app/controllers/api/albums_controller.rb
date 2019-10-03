@@ -14,7 +14,7 @@ class Api::AlbumsController < ApplicationController
   end
   
   def index
-    @albums = Album.all.limit(30).includes(:songs).with_img.with_artist
+    @albums = Album.all.limit(50).includes(:songs, :artist).with_img
     render :index
   end
   

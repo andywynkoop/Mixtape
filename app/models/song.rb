@@ -14,14 +14,6 @@ class Song < ApplicationRecord
 
   has_one_attached :audio
 
-  scope :with_artist, -> {
-    eager_load(:artist)
-  }
-
-  scope :with_album, -> {
-    eager_load(:album)
-  }
-
   scope :with_audio, -> {
     eager_load(audio_attachment: :blob)
   }

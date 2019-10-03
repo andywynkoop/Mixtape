@@ -5,7 +5,7 @@ class Api::SongsController < ApplicationController
   skip_before_action :verify_authenticity_token
   def index
     query = params[:query]
-    @songs = Song.all.limit(60).with_audio.with_artist.with_album
+    @songs = Song.all.limit(200).includes(:artist).with_audio
     render :index
   end
 
@@ -15,6 +15,15 @@ class Api::SongsController < ApplicationController
     res = RestClient.get("#{node_endpoint}?url=https://www.youtube.com/watch?v=#{song_params[:video_id]}&title=#{song_params[:title]}&album_id=#{song_params[:album_id]}&callback=#{rails_endpoint}")
     audio_id = JSON.parse(res.body)["id"]
     render json: { waitingFor: audio_id }
+  end
+
+  def manual
+    @song = Song.new(manual_song_params)
+    if @song.save
+      render :show
+    else
+      render json: @song.errors.full_messages, status: 422
+    end
   end
 
   def receive_song_file
@@ -37,5 +46,9 @@ class Api::SongsController < ApplicationController
 
   def song_params
     params.require(:song).permit(:video_id, :title, :album_id)
+  end
+
+  def manual_song_params
+    params.require(:song).permit(:title, :album_id, :audio)
   end
 end

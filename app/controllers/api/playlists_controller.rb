@@ -14,14 +14,23 @@ class Api::PlaylistsController < ApplicationController
   end
 
   def index
-    @playlists = current_user.playlists.includes(:artists)
+    @playlists = current_user.playlists.with_img.includes(:artists)
     @artists, @albums, @songs = [], [], []
     @playlists.each do |playlist|
-      @artists.concat(playlist.artists)
-      @albums.concat(playlist.albums)
-      @songs.concat(playlist.songs)
+      @artists.concat(playlist.artists.with_img)
+      @albums.concat(playlist.albums.with_img)
+      @songs.concat(playlist.songs.with_audio)
     end
     render :index
+  end
+
+  def show
+    @playlist = current_user.playlists.find(params[:id])
+    if @playlist 
+      render :show
+    else
+      render json: ["Unauthorized"], status: 401
+    end
   end
 
   def destroy

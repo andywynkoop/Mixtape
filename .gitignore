@@ -26,6 +26,7 @@ apiKey.js
 secret.js
 main.js
 main.js.map
+_todos.md
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
