@@ -41,6 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		applyMiddleware(thunk, logger)
 	);
 	window.store = store;
+	// easy hash navigation
+	window.navigate = newPath => (window.location.hash = `#${newPath}`);
 
 	// socket
 	window.io = ioClient('http://localhost:3001');

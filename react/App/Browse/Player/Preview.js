@@ -2,9 +2,7 @@ export default ({ song, album, artist }) =>
 	song ? (
 		<div
 			className="song-info"
-			onClick={() =>
-				window.location.replace(`/#/browse/albums/${album.id}`)
-			}
+			onClick={() => navigate(`/browse/albums/${album.id}`)}
 		>
 			<img src={album.img} />
 			<div>

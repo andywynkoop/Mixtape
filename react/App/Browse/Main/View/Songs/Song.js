@@ -13,7 +13,7 @@ const Song = ({ song, thisSongIsPlaying, pause, play, artist, img }) => {
 
 	const innerClick = e => {
 		e.stopPropagation();
-		window.location.replace(`/#/browse/artists/${artist.id}`);
+		navigate(`/browse/artists/${artist.id}`);
 	};
 
 	return (

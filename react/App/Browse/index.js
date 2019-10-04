@@ -10,7 +10,7 @@ class Browse extends React.Component {
 	}
 
 	componentDidUpdate() {
-		if (!this.props.loggedIn) window.location.replace('/#/');
+		if (!this.props.loggedIn) navigate('/');
 	}
 
 	render = () => (

@@ -18,7 +18,7 @@ class MediaCard extends Component {
 
 	handleClick = e => {
 		if (e.target.className !== 'fas fa-play') {
-			window.location.replace(`/#/browse/albums/${this.props.album.id}`);
+			navigate(`/browse/albums/${this.props.album.id}`);
 		}
 	};
 	render() {

@@ -8,7 +8,7 @@ class Form extends Component {
 
 	componentDidUpdate(oldProps) {
 		if (this.props.loggedIn) {
-			window.location.replace('/#/browse');
+			navigate('/browse');
 		}
 		if (this.props.type !== oldProps.type) {
 			this.props.clear();

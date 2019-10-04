@@ -2,6 +2,7 @@ const { Component } = React;
 const { connect } = ReactRedux;
 import { play, pause, seekLeft, seekRight, playFirst } from '../../../actions';
 import Preview from './Preview';
+import KeyBinder from './KeyBinder';
 
 class Player extends Component {
 	state = {
@@ -34,12 +35,30 @@ class Player extends Component {
 
 	handleVolumeChange = e => {
 		const newVolume = parseInt(e.target.value);
-		window.localStorage.setItem('player-volume', newVolume);
-		this.setState({ volume: newVolume }, () => {
+		this.setVolume(newVolume);
+	};
+
+	setVolume = volume => {
+		this.setState({ volume }, () => {
 			if (window.audio) {
 				window.audio.volume = this.state.volume / 100.0;
+				window.localStorage.setItem('player-volume', volume);
 			}
 		});
+	};
+
+	increaseVolume = () => {
+		const currentVolume = this.state.volume;
+		let newVolume = currentVolume + 5;
+		if (newVolume > 100) newVolume = 100;
+		this.setVolume(newVolume);
+	};
+
+	decreaseVolume = () => {
+		const currentVolume = this.state.volume;
+		let newVolume = currentVolume - 5;
+		if (newVolume < 0) newVolume = 0;
+		this.setVolume(newVolume);
 	};
 
 	createOrUpdateAudio = () => {
@@ -47,6 +66,7 @@ class Player extends Component {
 		this.setState({ progress: 0 }, () => {
 			if (!window.audio) {
 				window.audio = new Audio(song.audio);
+				window.audio.volume = this.state.volume / 100.0;
 				window.audio.onended = seekRight;
 			} else {
 				window.audio.setAttribute('src', song.audio);
@@ -124,6 +144,13 @@ class Player extends Component {
 					/>
 				</div>
 				<Preview song={song} album={album} artist={artist} />
+				<KeyBinder
+					seekLeft={this.props.seekLeft}
+					seekRight={this.props.seekRight}
+					increaseVolume={this.increaseVolume}
+					decreaseVolume={this.decreaseVolume}
+					playPause={this.playPauseFn}
+				/>
 			</div>
 		);
 	}

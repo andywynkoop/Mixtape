@@ -11264,7 +11264,7 @@ var Song = function Song(_ref) {
 
   var innerClick = function innerClick(e) {
     e.stopPropagation();
-    window.location.replace("/#/browse/artists/".concat(artist.id));
+    navigate("/browse/artists/".concat(artist.id));
   };
 
   return React.createElement("li", {
@@ -11476,7 +11476,7 @@ function (_Component) {
 
     _defineProperty(_assertThisInitialized(_this), "handleClick", function (e) {
       if (e.target.className !== 'fas fa-play') {
-        window.location.replace("/#/browse/albums/".concat(_this.props.album.id));
+        navigate("/browse/albums/".concat(_this.props.album.id));
       }
     });
 
@@ -11615,6 +11615,120 @@ var withNav = function withNav(Component) {
 
 /***/ }),
 
+/***/ "./react/App/Browse/Player/KeyBinder.js":
+/*!**********************************************!*\
+  !*** ./react/App/Browse/Player/KeyBinder.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var _React = React,
+    Component = _React.Component;
+
+var KeyBinder =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(KeyBinder, _Component);
+
+  function KeyBinder(props) {
+    var _this;
+
+    _classCallCheck(this, KeyBinder);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(KeyBinder).call(this, props));
+
+    _defineProperty(_assertThisInitialized(_this), "keyDown", function (e) {
+      if (_this.state.keys[e.keyCode]) return;
+      var newKeys = Object.assign({}, _this.state.keys);
+      newKeys[e.keyCode] = true;
+
+      _this.setState({
+        keys: newKeys
+      }, function () {
+        _this.fire(_this.state.keys);
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "keyUp", function (e) {
+      var newKeys = Object.assign({}, _this.state.keys);
+      delete newKeys[e.keyCode];
+
+      _this.setState({
+        keys: newKeys
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "fire", function (keys) {
+      var _this$props = _this.props,
+          playPause = _this$props.playPause,
+          seekLeft = _this$props.seekLeft,
+          seekRight = _this$props.seekRight,
+          increaseVolume = _this$props.increaseVolume,
+          decreaseVolume = _this$props.decreaseVolume;
+      if (keys[32]) playPause();
+
+      if (keys[18]) {
+        if (keys[37]) seekLeft();else if (keys[39]) seekRight();else if (keys[189]) decreaseVolume();else if (keys[187]) increaseVolume();else if (keys[83]) navigate('/browse/search');
+      }
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "render", function () {
+      return React.createElement("div", {
+        style: {
+          display: 'none'
+        }
+      });
+    });
+
+    _this.state = {
+      keys: {}
+    };
+    return _this;
+  }
+
+  _createClass(KeyBinder, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      document.addEventListener('keydown', this.keyDown);
+      document.addEventListener('keyup', this.keyUp);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      document.removeEventListener('keydown', this.keyDown);
+      document.removeEventListener('keyup', this.keyUp);
+    }
+  }]);
+
+  return KeyBinder;
+}(Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (KeyBinder);
+
+/***/ }),
+
 /***/ "./react/App/Browse/Player/Preview.js":
 /*!********************************************!*\
   !*** ./react/App/Browse/Player/Preview.js ***!
@@ -11631,7 +11745,7 @@ __webpack_require__.r(__webpack_exports__);
   return song ? React.createElement("div", {
     className: "song-info",
     onClick: function onClick() {
-      return window.location.replace("/#/browse/albums/".concat(album.id));
+      return navigate("/browse/albums/".concat(album.id));
     }
   }, React.createElement("img", {
     src: album.img
@@ -11651,6 +11765,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../actions */ "./react/actions/index.js");
 /* harmony import */ var _Preview__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Preview */ "./react/App/Browse/Player/Preview.js");
+/* harmony import */ var _KeyBinder__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./KeyBinder */ "./react/App/Browse/Player/KeyBinder.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -11675,6 +11790,7 @@ var _React = React,
     Component = _React.Component;
 var _ReactRedux = ReactRedux,
     connect = _ReactRedux.connect;
+
 
 
 
@@ -11722,15 +11838,35 @@ function (_Component) {
 
     _defineProperty(_assertThisInitialized(_this), "handleVolumeChange", function (e) {
       var newVolume = parseInt(e.target.value);
-      window.localStorage.setItem('player-volume', newVolume);
 
+      _this.setVolume(newVolume);
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "setVolume", function (volume) {
       _this.setState({
-        volume: newVolume
+        volume: volume
       }, function () {
         if (window.audio) {
           window.audio.volume = _this.state.volume / 100.0;
+          window.localStorage.setItem('player-volume', volume);
         }
       });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "increaseVolume", function () {
+      var currentVolume = _this.state.volume;
+      var newVolume = currentVolume + 5;
+      if (newVolume > 100) newVolume = 100;
+
+      _this.setVolume(newVolume);
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "decreaseVolume", function () {
+      var currentVolume = _this.state.volume;
+      var newVolume = currentVolume - 5;
+      if (newVolume < 0) newVolume = 0;
+
+      _this.setVolume(newVolume);
     });
 
     _defineProperty(_assertThisInitialized(_this), "createOrUpdateAudio", function () {
@@ -11743,6 +11879,7 @@ function (_Component) {
       }, function () {
         if (!window.audio) {
           window.audio = new Audio(song.audio);
+          window.audio.volume = _this.state.volume / 100.0;
           window.audio.onended = seekRight;
         } else {
           window.audio.setAttribute('src', song.audio);
@@ -11855,6 +11992,12 @@ function (_Component) {
         song: song,
         album: album,
         artist: artist
+      }), React.createElement(_KeyBinder__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        seekLeft: this.props.seekLeft,
+        seekRight: this.props.seekRight,
+        increaseVolume: this.increaseVolume,
+        decreaseVolume: this.decreaseVolume,
+        playPause: this.playPauseFn
       }));
     }
   }]);
@@ -12098,7 +12241,7 @@ function (_React$Component) {
   _createClass(Browse, [{
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
-      if (!this.props.loggedIn) window.location.replace('/#/');
+      if (!this.props.loggedIn) navigate('/');
     }
   }]);
 
@@ -13626,7 +13769,7 @@ function (_Component) {
     key: "componentDidUpdate",
     value: function componentDidUpdate(oldProps) {
       if (this.props.loggedIn) {
-        window.location.replace('/#/browse');
+        navigate('/browse');
       }
 
       if (this.props.type !== oldProps.type) {
@@ -14424,7 +14567,12 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   var store = createStore(_reducers__WEBPACK_IMPORTED_MODULE_5__["default"], preloaded, applyMiddleware(_middlewares_thunk__WEBPACK_IMPORTED_MODULE_6__["default"], _middlewares_logger__WEBPACK_IMPORTED_MODULE_7__["default"]));
-  window.store = store; // socket
+  window.store = store; // easy hash navigation
+
+  window.navigate = function (newPath) {
+    return window.location.hash = "#".concat(newPath);
+  }; // socket
+
 
   window.io = socket_io_client__WEBPACK_IMPORTED_MODULE_4___default()('http://localhost:3001');
 
@@ -15984,7 +16132,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _artists__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./artists */ "./react/reducers/entities/artists.js");
 /* harmony import */ var _search__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./search */ "./react/reducers/entities/search.js");
 /* harmony import */ var _playlists__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./playlists */ "./react/reducers/entities/playlists.js");
-/* harmony import */ var _playlistSongs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./playlistSongs */ "./react/reducers/entities/playlistSongs.js");
+/* harmony import */ var _playlistSongs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./playlistSongs */ "./react/reducers/entities/playlistSongs.js");
 var _Redux = Redux,
     combineReducers = _Redux.combineReducers;
 
@@ -16001,7 +16149,7 @@ var _Redux = Redux,
   artists: _artists__WEBPACK_IMPORTED_MODULE_3__["default"],
   search: _search__WEBPACK_IMPORTED_MODULE_4__["default"],
   playlists: _playlists__WEBPACK_IMPORTED_MODULE_5__["default"],
-  playlistSongs: _playlistSongs__WEBPACK_IMPORTED_MODULE_7__["default"]
+  playlistSongs: _playlistSongs__WEBPACK_IMPORTED_MODULE_6__["default"]
 }));
 
 /***/ }),
