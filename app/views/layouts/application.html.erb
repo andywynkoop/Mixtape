@@ -5,6 +5,12 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <script>
+      window.NODE_ENV = "<%= ENV["NODE_ENV"] || "" %>";
+      window.NODE_ENDPOINT = "<%= ENV["NODE_ENDPOINT"] || "http://localhost:3001" %>";
+      window.RAILS_ENDPOINT = "<%= ENV["RAILS_ENDPOINT"] || "http://localhost:3000" %>";
+      window.GOOGLE_API_KEY = "<%= ENV["GOOGLE_API_KEY"] || nil %>";
+    </script>
+    <script>
       <% if current_user %>
         window.currentUser = {
           id: "<%= current_user.id %>",
