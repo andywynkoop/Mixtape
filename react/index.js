@@ -35,11 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	} else {
 		preloaded = {};
 	}
-	const store = createStore(
-		rootReducer,
-		preloaded,
-		applyMiddleware(thunk, logger)
-	);
+	// remove logger for deploy
+	const store = createStore(rootReducer, preloaded, applyMiddleware(thunk));
 	window.store = store;
 	// easy hash navigation
 	window.navigate = newPath => (window.location.hash = `#${newPath}`);

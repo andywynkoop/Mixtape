@@ -14933,9 +14933,10 @@ document.addEventListener('DOMContentLoaded', function () {
     };
   } else {
     preloaded = {};
-  }
+  } // remove logger for deploy
 
-  var store = createStore(_reducers__WEBPACK_IMPORTED_MODULE_5__["default"], preloaded, applyMiddleware(_middlewares_thunk__WEBPACK_IMPORTED_MODULE_6__["default"], _middlewares_logger__WEBPACK_IMPORTED_MODULE_7__["default"]));
+
+  var store = createStore(_reducers__WEBPACK_IMPORTED_MODULE_5__["default"], preloaded, applyMiddleware(_middlewares_thunk__WEBPACK_IMPORTED_MODULE_6__["default"]));
   window.store = store; // easy hash navigation
 
   window.navigate = function (newPath) {

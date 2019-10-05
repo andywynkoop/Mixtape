@@ -1,5 +1,5 @@
 {
-	"name": "spotify",
+	"name": "mixtape",
 	"private": true,
 	"dependencies": {
 		"@babel/core": "^7.2.0",
@@ -18,8 +18,13 @@
 		"lib": "lib",
 		"test": "test"
 	},
+	"engines": {
+		"node": "12.5.0",
+		"npm": "6.9.0"
+	},
 	"scripts": {
-		"start": "webpack --watch --mode=development"
+		"start": "webpack --watch --mode=development",
+		"postinstall": "webpack --mode=production"
 	},
 	"author": "Andy Wynkoop",
 	"license": "ISC"
