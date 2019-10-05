@@ -19,8 +19,8 @@
 		"test": "test"
 	},
 	"engines": {
-		"node": "12.5.0",
-		"npm": "6.9.0"
+		"node": "8.9.4",
+		"npm": "5.6.0"
 	},
 	"scripts": {
 		"start": "webpack --watch --mode=development",
