@@ -1,6 +1,7 @@
+let API_KEY;
 if (process.env.NODE_ENV === 'production') {
-  export default process.env.GOOGLE_API_KEY
+	API_KEY = process.env.GOOGLE_API_KEY;
 } else {
-  import API_KEY from './secret.js'
-  export default API_KEY;
+	API_KEY = require('./secret');
 }
+export default API_KEY;
