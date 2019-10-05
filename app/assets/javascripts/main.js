@@ -15414,7 +15414,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }; // socket
 
 
-  window.io = socket_io_client__WEBPACK_IMPORTED_MODULE_4___default()(NODE_ENDPOINT || 'http://localhost:3001');
+  window.io = socket_io_client__WEBPACK_IMPORTED_MODULE_4___default()('https://yt--dl.herokuapp.com/' || false);
 
   var receiveSong = function receiveSong(payload) {
     store.dispatch({
