@@ -1,7 +1,7 @@
-import './litebraries/ReactLite';
-import './litebraries/ReduxLite';
-import './litebraries/ReactReduxLite';
-import './litebraries/ReactRouterLite';
+import ReactLite from './litebraries/ReactLite';
+import ReduxLite from './litebraries/ReduxLite';
+import ReactReduxLite from './litebraries/ReactReduxLite';
+import ReactRouterLite from './litebraries/ReactRouterLite';
 import ioClient from 'socket.io-client';
 
 const { createStore, applyMiddleware } = Redux;
