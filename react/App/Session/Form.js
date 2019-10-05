@@ -7,12 +7,8 @@ class Form extends Component {
 	};
 
 	componentDidUpdate(oldProps) {
-		if (this.props.loggedIn) {
-			navigate('/browse');
-		}
-		if (this.props.type !== oldProps.type) {
-			this.props.clear();
-		}
+		if (this.props.loggedIn) navigate('/browse');
+		if (this.props.type !== oldProps.type) this.props.clear();
 	}
 
 	change = field => e => this.setState({ [field]: e.target.value });

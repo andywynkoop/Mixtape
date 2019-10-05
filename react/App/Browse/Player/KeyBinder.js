@@ -23,7 +23,7 @@ class KeyBinder extends Component {
 		const newKeys = Object.assign({}, this.state.keys);
 		newKeys[e.keyCode] = true;
 		this.setState({ keys: newKeys }, () => {
-			this.fire(this.state.keys);
+			this.fire(this.state.keys, e);
 		});
 	};
 
@@ -33,7 +33,7 @@ class KeyBinder extends Component {
 		this.setState({ keys: newKeys });
 	};
 
-	fire = keys => {
+	fire = (keys, e) => {
 		const {
 			playPause,
 			seekLeft,
@@ -41,9 +41,10 @@ class KeyBinder extends Component {
 			increaseVolume,
 			decreaseVolume,
 		} = this.props;
-		if (keys[32]) playPause();
 		if (keys[18]) {
-			if (keys[37]) seekLeft();
+			e.preventDefault();
+			if (keys[32]) playPause();
+			else if (keys[37]) seekLeft();
 			else if (keys[39]) seekRight();
 			else if (keys[189]) decreaseVolume();
 			else if (keys[187]) increaseVolume();

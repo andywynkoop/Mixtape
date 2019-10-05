@@ -9,6 +9,7 @@ export const RECEIVE_YOUTUBE = 'RECEIVE_YOUTUBE';
 export const RECEIVE_SONG_PROGRESS = 'RECEIVE_SONG_PROGRESS';
 export const RECEIVE_SONG = 'RECEIVE_SONG';
 export const RECEIVE_MUSIC = 'RECEIVE_MUSIC';
+export const REMOVE_PLAYLIST = 'REMOVE_PLAYLIST';
 
 export const signup = user => dispatch =>
 	$.ajax({
@@ -111,14 +112,22 @@ export const seekRight = () => (dispatch, getState) => {
 	dispatch(selectSong(queue[0], queue));
 };
 
-export const playFirst = (queue = null) => (dispatch, getState) => {
+export const playFirst = (queue = null, isRandom = false, shuffle = false) => (
+	dispatch,
+	getState
+) => {
 	if (!queue)
-		queue = Object.keys(getState().entities.songs).sort((s1, s2) => {
-			if (s1.title > s2.title) return 1;
-			return -1;
-		});
-
-	dispatch(selectSong(queue[0], queue));
+		queue = Object.keys(getState().entities.songs).sort((s1, s2) =>
+			s1.title < s2.title ? 1 : -1
+		);
+	let idx = 0;
+	if (shuffle)
+		queue = queue.sort((s1, s2) => Math.floor(Math.random() * 3) - 1);
+	if (isRandom) {
+		idx = Math.floor(Math.random() * queue.length);
+		queue = rotateQueue(queue[idx], [...queue]);
+	}
+	dispatch(selectSong(queue[idx], queue));
 };
 
 export const createArtist = form => dispatch =>
@@ -192,4 +201,30 @@ export const fetchPlaylist = id => dispatch =>
 	$.ajax({
 		method: 'get',
 		url: `/api/playlists/${id}`,
+	}).then(payload => dispatch({ type: RECEIVE_MUSIC, payload }));
+
+export const deletePlaylist = id => dispatch =>
+	$.ajax({
+		method: 'delete',
+		url: `/api/playlists/${id}`,
+	}).then(playlist =>
+		dispatch({ type: REMOVE_PLAYLIST, id: playlist.playlistId })
+	);
+
+export const addSongToPlaylist = (song_id, playlist_id) => dispatch =>
+	$.ajax({
+		method: 'post',
+		url: '/api/playlist_songs',
+		data: {
+			playlist_song: {
+				song_id,
+			},
+			playlist_id,
+		},
+	}).then(payload => dispatch({ type: RECEIVE_MUSIC, payload }));
+
+export const deleteSongFromPlaylist = playlist_song_id => dispatch =>
+	$.ajax({
+		method: 'delete',
+		url: `/api/playlist_songs/${playlist_song_id}`,
 	}).then(payload => dispatch({ type: RECEIVE_MUSIC, payload }));

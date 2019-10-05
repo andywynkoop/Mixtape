@@ -35,6 +35,8 @@ class Playlist extends Component {
 							song={song}
 							img={albums[song.albumId].img}
 							queue={this.rotateQueue(song.id)}
+							isOnPlaylist={true}
+							playlistSongId={song.playlistSongId}
 						/>
 					))}
 				</ul>
@@ -55,8 +57,13 @@ const mstp = (state, props) => {
 	let songsInOrder = [];
 	if (playlist) {
 		songsInOrder = playlist.playlistSongIds
-			.map(id => songs[playlistSongs[id].songId])
-			.sort((s1, s2) => (s1.ord < s2.ord ? 1 : -1));
+			.map(id => playlistSongs[id])
+			.sort((s1, s2) => (s1.ord > s2.ord ? 1 : -1))
+			.map(pls => {
+				let song = songs[pls.songId];
+				song.playlistSongId = pls.id;
+				return song;
+			});
 	}
 	return {
 		playlist,

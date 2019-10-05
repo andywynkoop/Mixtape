@@ -177,7 +177,7 @@ const mdtp = dispatch => ({
 	pause: () => dispatch(pause()),
 	seekLeft: () => dispatch(seekLeft()),
 	seekRight: () => dispatch(seekRight()),
-	playFirst: () => dispatch(playFirst()),
+	playFirst: () => dispatch(playFirst(null, true, true)),
 });
 
 export default connect(

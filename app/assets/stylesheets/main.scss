@@ -123,13 +123,15 @@ $pink-1: #de6a9e;
 		width: 400px;
 		border-radius: 3px;
 		height: 600px;
-		background: rgba(255, 255, 255, 0.7);
+		background: rgba(0, 0, 0, 0.4);
 		margin: auto;
 		padding: 20px;
 		text-align: center;
 
 		h1 {
 			margin: 30px 0px;
+			font-size: 30px;
+			color: white;
 		}
 
 		input {
@@ -140,12 +142,18 @@ $pink-1: #de6a9e;
 			text-align: center;
 			margin: auto;
 			border-radius: 3px;
-			border: solid 3px rgba(255, 255, 255, 0.3);
+			border: solid 2px rgba(255, 255, 255, 0.3);
 			font-size: 24px;
+			color: white;
 		}
 		input:active,
 		input:focus {
 			border: solid 3px $green;
+		}
+
+		h2 {
+			display: flex;
+			flex-direction: column;
 		}
 
 		h2 a {
@@ -175,6 +183,7 @@ $pink-1: #de6a9e;
 		display: flex;
 		justify-content: space-between;
 		padding: 10px 15px;
+		position: relative;
 	}
 
 	.song > div {
@@ -584,6 +593,7 @@ $pink-1: #de6a9e;
 }
 
 .playlist-item {
+	position: relative;
 	display: flex;
 	justify-content: space-between;
 	padding: 10px;
@@ -597,6 +607,10 @@ $pink-1: #de6a9e;
 		right: 20px;
 		cursor: pointer;
 		color: greenyellow;
+	}
+
+	> i:hover {
+		color: white;
 	}
 }
 .playlist-icon-container {
@@ -651,6 +665,26 @@ $pink-1: #de6a9e;
 	font-size: 24px;
 	bottom: 30px;
 	left: 30px;
+}
+
+.item-options {
+	position: absolute;
+	right: 30px;
+	bottom: 5px;
+	border-radius: 3px;
+	font-size: 12px;
+	background: #1984e9;
+	color: white;
+	padding: 8px 10px;
+	cursor: pointer;
+	box-shadow: 0px 0px 2px #333;
+}
+.item-options:hover {
+	background: #439df1;
+}
+
+.item-options.hidden {
+	display: none !important;
 }
 
 .search-view {

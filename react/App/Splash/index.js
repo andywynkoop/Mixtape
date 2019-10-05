@@ -5,14 +5,11 @@ import Nav from './Nav';
 
 class Splash extends Component {
 	componentDidMount() {
-		if (this.props.loggedIn) {
-			this.props.history.push('/browse');
-		}
+		if (this.props.loggedIn) this.props.history.push('/browse');
 	}
 	componentDidUpdate() {
-		if (this.props.loggedIn) {
+		if (this.props.loggedIn && window.location.hash === '#/')
 			this.props.history.push('/browse');
-		}
 	}
 
 	render = () => (
