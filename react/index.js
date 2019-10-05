@@ -1,7 +1,7 @@
-import ReactLite from './litebraries/ReactLite';
-import ReduxLite from './litebraries/ReduxLite';
-import ReactReduxLite from './litebraries/ReactReduxLite';
-import ReactRouterLite from './litebraries/ReactRouterLite';
+import * as ReactLite from './litebraries/ReactLite/index.js';
+import * as ReduxLite from './litebraries/ReduxLite/index.js';
+import * as ReactReduxLite from './litebraries/ReactReduxLite/index.js';
+import * as ReactRouterLite from './litebraries/ReactRouterLite/index.js';
 if (ReactLite) console.log('');
 if (ReduxLite) console.log('');
 if (ReactReduxLite) console.log('');

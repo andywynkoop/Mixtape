@@ -24,7 +24,8 @@
 	},
 	"scripts": {
 		"start": "webpack --watch --mode=development",
-		"postinstall": "webpack --mode=production"
+		"postinstall": "webpack --mode=production",
+		"build": "webpack --mode=production"
 	},
 	"author": "Andy Wynkoop",
 	"license": "ISC"

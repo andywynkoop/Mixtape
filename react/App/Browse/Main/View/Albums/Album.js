@@ -6,7 +6,6 @@ import Song from '../Songs/Song';
 
 class Album extends Component {
 	componentDidMount() {
-		console.log('album.js');
 		this.props.fetchAlbum();
 	}
 
