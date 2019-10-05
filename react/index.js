@@ -1,11 +1,8 @@
-import * as ReactLite from './litebraries/ReactLite/index.js';
-import * as ReduxLite from './litebraries/ReduxLite/index.js';
-import * as ReactReduxLite from './litebraries/ReactReduxLite/index.js';
-import * as ReactRouterLite from './litebraries/ReactRouterLite/index.js';
-if (ReactLite) console.log('');
-if (ReduxLite) console.log('');
-if (ReactReduxLite) console.log('');
-if (ReactRouterLite) console.log('');
+import './litebraries/ReactLite';
+import './litebraries/ReduxLite';
+import './litebraries/ReactReduxLite';
+import './litebraries/ReactRouterLite';
+
 import ioClient from 'socket.io-client';
 
 const { createStore, applyMiddleware } = Redux;
