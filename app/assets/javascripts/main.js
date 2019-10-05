@@ -14443,7 +14443,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deletePlaylist", function() { return deletePlaylist; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addSongToPlaylist", function() { return addSongToPlaylist; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteSongFromPlaylist", function() { return deleteSongFromPlaylist; });
-/* harmony import */ var _secret__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./secret */ "./react/actions/secret.js");
+/* harmony import */ var _keys__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./keys */ "./react/actions/keys.js");
+/* harmony import */ var _keys__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_keys__WEBPACK_IMPORTED_MODULE_0__);
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -14706,7 +14707,7 @@ var searchYoutube = function searchYoutube(query) {
   return function (dispatch) {
     return $.ajax({
       method: 'get',
-      url: "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=".concat(query, "&type=video&key=").concat(_secret__WEBPACK_IMPORTED_MODULE_0__["default"])
+      url: "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&q=".concat(query, "&type=video&key=").concat(_keys__WEBPACK_IMPORTED_MODULE_0___default.a)
     }).then(function (results) {
       return dispatch({
         type: RECEIVE_YOUTUBE,
@@ -14852,16 +14853,14 @@ var deleteSongFromPlaylist = function deleteSongFromPlaylist(playlist_song_id) {
 
 /***/ }),
 
-/***/ "./react/actions/secret.js":
-/*!*********************************!*\
-  !*** ./react/actions/secret.js ***!
-  \*********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "./react/actions/keys.js":
+/*!*******************************!*\
+  !*** ./react/actions/keys.js ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ('AIzaSyDjN3fyqswV5yIT4Uf3g4uKVJuVMd2HidU');
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: /Users/andywynkoop/Desktop/search/projects/Mixtape/react/actions/keys.js: 'import' and 'export' may only appear at the top level (2:2)\n\n\u001b[0m \u001b[90m 1 | \u001b[39m\u001b[36mif\u001b[39m (process\u001b[33m.\u001b[39menv\u001b[33m.\u001b[39m\u001b[33mNODE_ENV\u001b[39m \u001b[33m===\u001b[39m \u001b[32m'production'\u001b[39m) {\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 2 | \u001b[39m  \u001b[36mexport\u001b[39m \u001b[36mdefault\u001b[39m process\u001b[33m.\u001b[39menv\u001b[33m.\u001b[39m\u001b[33mGOOGLE_API_KEY\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m   | \u001b[39m  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 3 | \u001b[39m} \u001b[36melse\u001b[39m {\u001b[0m\n\u001b[0m \u001b[90m 4 | \u001b[39m  \u001b[36mimport\u001b[39m \u001b[33mAPI_KEY\u001b[39m from \u001b[32m'./secret.js'\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 5 | \u001b[39m  \u001b[36mexport\u001b[39m \u001b[36mdefault\u001b[39m \u001b[33mAPI_KEY\u001b[39m\u001b[33m;\u001b[39m\u001b[0m\n    at Object.raise (/Users/andywynkoop/Desktop/search/projects/Mixtape/node_modules/@babel/parser/lib/index.js:6400:17)\n    at Object.parseStatementContent (/Users/andywynkoop/Desktop/search/projects/Mixtape/node_modules/@babel/parser/lib/index.js:10023:18)\n    at Object.parseStatement (/Users/andywynkoop/Desktop/search/projects/Mixtape/node_modules/@babel/parser/lib/index.js:9932:17)\n    at Object.parseBlockOrModuleBlockBody (/Users/andywynkoop/Desktop/search/projects/Mixtape/node_modules/@babel/parser/lib/index.js:10508:25)\n    at Object.parseBlockBody (/Users/andywynkoop/Desktop/search/projects/Mixtape/node_modules/@babel/parser/lib/index.js:10495:10)\n    at Object.parseBlock (/Users/andywynkoop/Desktop/search/projects/Mixtape/node_modules/@babel/parser/lib/index.js:10479:10)\n    at Object.parseStatementContent (/Users/andywynkoop/Desktop/search/projects/Mixtape/node_modules/@babel/parser/lib/index.js:10008:21)\n    at Object.parseStatement (/Users/andywynkoop/Desktop/search/projects/Mixtape/node_modules/@babel/parser/lib/index.js:9932:17)\n    at Object.parseIfStatement (/Users/andywynkoop/Desktop/search/projects/Mixtape/node_modules/@babel/parser/lib/index.js:10286:28)\n    at Object.parseStatementContent (/Users/andywynkoop/Desktop/search/projects/Mixtape/node_modules/@babel/parser/lib/index.js:9977:21)\n    at Object.parseStatement (/Users/andywynkoop/Desktop/search/projects/Mixtape/node_modules/@babel/parser/lib/index.js:9932:17)\n    at Object.parseBlockOrModuleBlockBody (/Users/andywynkoop/Desktop/search/projects/Mixtape/node_modules/@babel/parser/lib/index.js:10508:25)\n    at Object.parseBlockBody (/Users/andywynkoop/Desktop/search/projects/Mixtape/node_modules/@babel/parser/lib/index.js:10495:10)\n    at Object.parseTopLevel (/Users/andywynkoop/Desktop/search/projects/Mixtape/node_modules/@babel/parser/lib/index.js:9861:10)\n    at Object.parse (/Users/andywynkoop/Desktop/search/projects/Mixtape/node_modules/@babel/parser/lib/index.js:11373:17)\n    at parse (/Users/andywynkoop/Desktop/search/projects/Mixtape/node_modules/@babel/parser/lib/index.js:11409:38)\n    at parser (/Users/andywynkoop/Desktop/search/projects/Mixtape/node_modules/@babel/core/lib/transformation/normalize-file.js:168:34)\n    at normalizeFile (/Users/andywynkoop/Desktop/search/projects/Mixtape/node_modules/@babel/core/lib/transformation/normalize-file.js:102:11)\n    at runSync (/Users/andywynkoop/Desktop/search/projects/Mixtape/node_modules/@babel/core/lib/transformation/index.js:44:43)\n    at runAsync (/Users/andywynkoop/Desktop/search/projects/Mixtape/node_modules/@babel/core/lib/transformation/index.js:35:14)\n    at process.nextTick (/Users/andywynkoop/Desktop/search/projects/Mixtape/node_modules/@babel/core/lib/transform.js:34:34)\n    at _combinedTickCallback (internal/process/next_tick.js:131:7)\n    at process._tickCallback (internal/process/next_tick.js:180:9)");
 
 /***/ }),
 
@@ -14874,7 +14873,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _litebraries_ReactLite__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./litebraries/ReactLite */ "./react/litebraries/ReactLite/index.js");
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var _litebraries_ReactLite__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./litebraries/ReactLite */ "./react/litebraries/ReactLite/index.js");
 /* harmony import */ var _litebraries_ReduxLite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./litebraries/ReduxLite */ "./react/litebraries/ReduxLite/index.js");
 /* harmony import */ var _litebraries_ReactReduxLite__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./litebraries/ReactReduxLite */ "./react/litebraries/ReactReduxLite/index.js");
 /* harmony import */ var _litebraries_ReactRouterLite__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./litebraries/ReactRouterLite */ "./react/litebraries/ReactRouterLite/index.js");
@@ -14944,7 +14943,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }; // socket
 
 
-  window.io = socket_io_client__WEBPACK_IMPORTED_MODULE_4___default()('http://localhost:3001');
+  window.io = socket_io_client__WEBPACK_IMPORTED_MODULE_4___default()(process.env.NODE_ENPOINT || 'http://localhost:3001');
 
   var receiveSong = function receiveSong(payload) {
     store.dispatch({
@@ -14961,6 +14960,7 @@ document.addEventListener('DOMContentLoaded', function () {
     Component: _App__WEBPACK_IMPORTED_MODULE_8__["default"]
   }), document.getElementById('app'));
 });
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
 
 /***/ }),
 

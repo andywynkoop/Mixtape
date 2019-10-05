@@ -148,7 +148,7 @@ export const createAlbum = form => dispatch =>
 		contentType: false,
 	}).then(payload => dispatch({ type: RECEIVE_MUSIC, payload }));
 
-import API_KEY from './secret';
+import API_KEY from './keys';
 
 export const searchYoutube = query => dispatch =>
 	$.ajax({

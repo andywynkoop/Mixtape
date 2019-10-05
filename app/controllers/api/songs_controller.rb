@@ -10,9 +10,10 @@ class Api::SongsController < ApplicationController
   end
 
   def create
-    node_endpoint = "http://localhost:3001"
-    rails_endpoint = "http://localhost:3000/api/receive_song_file"
-    res = RestClient.get("#{node_endpoint}?url=https://www.youtube.com/watch?v=#{song_params[:video_id]}&title=#{song_params[:title]}&album_id=#{song_params[:album_id]}&callback=#{rails_endpoint}")
+    node_endpoint = ENV["NODE_ENDPOINT"]|| "http://localhost:3001"
+    rails_endpoint = ENV["RAILS_ENDPOINT"] || "http://localhost:3000"
+    callback = "#{rails_endpoint}/api/receive_song_file"
+    res = RestClient.get("#{node_endpoint}?url=https://www.youtube.com/watch?v=#{song_params[:video_id]}&title=#{song_params[:title]}&album_id=#{song_params[:album_id]}&callback=#{callback}")
     audio_id = JSON.parse(res.body)["id"]
     render json: { waitingFor: audio_id }
   end
@@ -30,7 +31,7 @@ class Api::SongsController < ApplicationController
     filename = params[:filename]
     album_id = params[:album_id]
     title = params[:title]
-    node_endpoint = "http://localhost:3001"
+    node_endpoint = ENV["NODE_ENDPOINT"] || "http://localhost:3001"
     file = open("#{node_endpoint}/songs/#{filename}")
     @song = Song.new(
       title: title, 
