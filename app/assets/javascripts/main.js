@@ -15315,7 +15315,7 @@ var API_KEY;
 if (NODE_ENV === 'production') {
   API_KEY = GOOGLE_API_KEY;
 } else {
-  API_KEY = __webpack_require__(/*! ./secret */ "./react/actions/secret.js");
+  API_KEY = __webpack_require__(/*! ./secret */ "./react/actions/secret.js")["default"];
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (API_KEY);
@@ -15414,7 +15414,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }; // socket
 
 
-  debugger;
   window.io = socket_io_client__WEBPACK_IMPORTED_MODULE_4___default()(NODE_ENDPOINT || 'http://localhost:3001');
 
   var receiveSong = function receiveSong(payload) {

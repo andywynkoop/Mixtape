@@ -12,6 +12,7 @@ class Api::SongsController < ApplicationController
   def create
     node_endpoint = ENV["NODE_ENDPOINT"]|| "http://localhost:3001"
     rails_endpoint = ENV["RAILS_ENDPOINT"] || "http://localhost:3000"
+    debugger
     callback = "#{rails_endpoint}/api/receive_song_file"
     res = RestClient.get("#{node_endpoint}?url=https://www.youtube.com/watch?v=#{song_params[:video_id]}&title=#{song_params[:title]}&album_id=#{song_params[:album_id]}&callback=#{callback}")
     audio_id = JSON.parse(res.body)["id"]
