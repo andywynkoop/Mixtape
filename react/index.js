@@ -2,6 +2,10 @@ import ReactLite from './litebraries/ReactLite';
 import ReduxLite from './litebraries/ReduxLite';
 import ReactReduxLite from './litebraries/ReactReduxLite';
 import ReactRouterLite from './litebraries/ReactRouterLite';
+if (ReactLite) console.log('');
+if (ReduxLite) console.log('');
+if (ReactReduxLite) console.log('');
+if (ReactRouterLite) console.log('');
 import ioClient from 'socket.io-client';
 
 const { createStore, applyMiddleware } = Redux;
