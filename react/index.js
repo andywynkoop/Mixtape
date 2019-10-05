@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// socket
 	debugger;
-	window.io = ioClient(NODE_ENPOINT || 'http://localhost:3001');
+	window.io = ioClient(process.env.NODE_ENPOINT || 'http://localhost:3001');
 	const receiveSong = payload => {
 		store.dispatch({ type: RECEIVE_SONG, payload });
 	};
