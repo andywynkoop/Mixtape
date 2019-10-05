@@ -10,5 +10,6 @@ json.artists do
   json.partial! '/api/artists/index.json.jbuilder', artists: artists
 end
 
-playlists = playlists || current_user.playlists
+playlists = []
+playlists = playlists || current_user.playlists if current_user
 json.partial! '/api/playlists/index.json.jbuilder', playlists: playlists
