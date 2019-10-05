@@ -4,15 +4,13 @@
     <title>Mixtape</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <% puts "rails: #{ENV["RAILS_ENDPOINT"] }" %>
+    <% puts "node: #{ENV["NODE_ENDPOINT"] }" %>
+    <% puts "env: #{ENV["RAILS_ENV"] }" %>
+    <% puts "node_env: #{ENV["NODE_ENV"] }" %>
     <script>
       window.NODE_ENV = "<%= ENV["NODE_ENV"] || "" %>";
       window.NODE_ENDPOINT = "https://yt--dl.herokuapp.com/"
-      
-      console.log("rails:", <%= ENV["RAILS_ENDPOINT"] %>)
-      console.log("node:", <%= ENV["NODE_ENDPOINT"] %>)
-      console.log("env:", <%= ENV["RAILS_ENV"] %>)
-      console.log("node_env:", <%= ENV["NODE_ENV"] %>)
-      console.log("google: ", <%= ENV["GOOGLE_API_KEY"] %>)
       window.GOOGLE_API_KEY = "<%= ENV["GOOGLE_API_KEY"] || nil %>";
     </script>
     <script>
