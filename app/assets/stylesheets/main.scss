@@ -177,6 +177,16 @@ $pink-1: #de6a9e;
 		filter: hue-rotate(90deg);
 	}
 
+	.color-fix-320 {
+		backdrop-filter: hue-rotate(320deg);
+	}
+	.color-fix-40 {
+		backdrop-filter: hue-rotate(40deg);
+	}
+	.color-fix-250 {
+		backdrop-filter: hue-rotate(250deg);
+	}
+
 	.song {
 		color: white;
 		font-size: 14px;
@@ -539,6 +549,7 @@ $pink-1: #de6a9e;
 		left: 30px;
 	}
 }
+
 .artist-show {
 	height: 100%;
 	margin-top: -60px;

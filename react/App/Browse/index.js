@@ -13,9 +13,17 @@ class Browse extends React.Component {
 		if (!this.props.loggedIn) navigate('/');
 	}
 
+	coolColors = () => {
+		const path = window.location.hash.slice(1);
+		if (path === '/browse') return 0;
+		if (path.startsWith('/browse/albums')) return 40;
+		if (path.startsWith('/browse/artists')) return 320;
+		if (path.startsWith('/browse/playlists')) return 250;
+	};
+
 	render = () => (
 		<div className="browse">
-			<div className="color-fix">
+			<div className={`color-fix color-fix-${this.coolColors()}`}>
 				<Sidebar />
 				<Player />
 				<Main />

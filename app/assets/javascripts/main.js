@@ -12536,11 +12536,19 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Browse).call(this, props));
 
+    _defineProperty(_assertThisInitialized(_this), "coolColors", function () {
+      var path = window.location.hash.slice(1);
+      if (path === '/browse') return 0;
+      if (path.startsWith('/browse/albums')) return 40;
+      if (path.startsWith('/browse/artists')) return 320;
+      if (path.startsWith('/browse/playlists')) return 250;
+    });
+
     _defineProperty(_assertThisInitialized(_this), "render", function () {
       return React.createElement("div", {
         className: "browse"
       }, React.createElement("div", {
-        className: "color-fix"
+        className: "color-fix color-fix-".concat(_this.coolColors())
       }, React.createElement(_Sidebar__WEBPACK_IMPORTED_MODULE_0__["default"], null), React.createElement(_Player__WEBPACK_IMPORTED_MODULE_1__["default"], null), React.createElement(_Main__WEBPACK_IMPORTED_MODULE_2__["default"], null), React.createElement(_Modal__WEBPACK_IMPORTED_MODULE_3__["default"], null)));
     });
 
