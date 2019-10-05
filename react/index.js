@@ -43,7 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	window.navigate = newPath => (window.location.hash = `#${newPath}`);
 
 	// socket
-	window.io = ioClient(process.env.NODE_ENPOINT || 'http://localhost:3001');
+	debugger;
+	window.io = ioClient(NODE_ENPOINT || 'http://localhost:3001');
 	const receiveSong = payload => {
 		store.dispatch({ type: RECEIVE_SONG, payload });
 	};
