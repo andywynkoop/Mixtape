@@ -4,6 +4,21 @@
     <title>Mixtape</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <% puts "rails: #{ENV["RAILS_ENDPOINT"] }" %>
+    <% puts "node: #{ENV["NODE_ENDPOINT"] }" %>
+    <% puts "env: #{ENV["RAILS_ENV"] }" %>
+    <% puts "node_env: #{ENV["NODE_ENV"] }" %>
+    <script>
+      <% if ENV["NODE_ENDPOINT"] %>
+        window.NODE_ENV = "production";
+        window.NODE_ENDPOINT = "<%= ENV["NODE_ENDPOINT"] %>";
+        window.GOOGLE_API_KEY = "<%= ENV["GOOGLE_API_KEY"]%>";
+      <% else %>
+        window.NODE_ENV = "development"
+        window.NODE_ENDPOINT = "http://localhost:3001";
+      <% end %>
+
+    </script>
     <script>
       <% if current_user %>
         window.currentUser = {

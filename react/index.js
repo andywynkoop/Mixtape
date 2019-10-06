@@ -2,6 +2,7 @@ import './litebraries/ReactLite';
 import './litebraries/ReduxLite';
 import './litebraries/ReactReduxLite';
 import './litebraries/ReactRouterLite';
+
 import ioClient from 'socket.io-client';
 
 const { createStore, applyMiddleware } = Redux;
@@ -42,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	window.navigate = newPath => (window.location.hash = `#${newPath}`);
 
 	// socket
-	window.io = ioClient(process.env.NODE_ENPOINT || 'http://localhost:3001');
+	window.io = ioClient(NODE_ENDPOINT);
 	const receiveSong = payload => {
 		store.dispatch({ type: RECEIVE_SONG, payload });
 	};
