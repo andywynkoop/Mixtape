@@ -169,6 +169,7 @@ $pink-1: #de6a9e;
 .browse {
 	height: 100vh;
 	background: url('https://s3-us-west-1.amazonaws.com/react-spotify-aa/gradient.png');
+	background-size: contain;
 	-webkit-filter: hue-rotate(-90deg);
 	filter: hue-rotate(-90deg);
 	.color-fix {
