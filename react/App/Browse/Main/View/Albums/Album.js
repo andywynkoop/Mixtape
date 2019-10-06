@@ -47,8 +47,8 @@ class Album extends Component {
 const mstp = (state, props) => {
 	const albumId = props.match.params.albumId;
 	const album = state.entities.albums[albumId];
-	let artist;
-	let songs;
+	let artist = {};
+	let songs = [];
 	if (album) {
 		artist = state.entities.artists[album.artistId];
 		songs = Object.values(state.entities.songs).filter(
