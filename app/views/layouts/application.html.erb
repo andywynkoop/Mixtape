@@ -9,9 +9,15 @@
     <% puts "env: #{ENV["RAILS_ENV"] }" %>
     <% puts "node_env: #{ENV["NODE_ENV"] }" %>
     <script>
-      window.NODE_ENV = "<%= ENV["NODE_ENV"] || "" %>";
-      window.NODE_ENDPOINT = "https://yt--dl.herokuapp.com/"
-      window.GOOGLE_API_KEY = "<%= ENV["GOOGLE_API_KEY"] || nil %>";
+      <% if ENV["NODE_ENDPOINT"] %>
+        window.NODE_ENV = "production";
+        window.NODE_ENDPOINT = "<%= ENV["NODE_ENDPOINT"] %>";
+        window.GOOGLE_API_KEY = "<%= ENV["GOOGLE_API_KEY"]%>";
+      <% else %>
+        window.NODE_ENV = "development"
+        window.NODE_ENDPOINT = "http://localhost:3001";
+      <% end %>
+
     </script>
     <script>
       <% if current_user %>

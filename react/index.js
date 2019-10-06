@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	window.navigate = newPath => (window.location.hash = `#${newPath}`);
 
 	// socket
-	window.io = ioClient('https://yt--dl.herokuapp.com/');
+	window.io = ioClient(NODE_ENDPOINT);
 	const receiveSong = payload => {
 		store.dispatch({ type: RECEIVE_SONG, payload });
 	};
