@@ -31,7 +31,8 @@ class Api::SongsController < ApplicationController
     filename = params[:filename]
     album_id = params[:album_id]
     title = params[:title]
-    node_endpoint = "https://yt--dl.herokuapp.com/"
+    node_endpoint = ENV['NODE_ENDPOINT']
+    puts node_endpoint
     file = open("#{node_endpoint}/songs/#{filename}")
     @song = Song.new(
       title: title, 
