@@ -1,24 +1,5 @@
-# README
+# Mixtape
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Mixtape is a music streaming site built with custom implementations of React, Redux, React-Redux, React-Router-DOM. It allows users to upload their own songs, and browse music that has previously been contributed by others. Users can also add artists and albums that may not exist yet, or download audio files from Youtube.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+[Live Site](http://mixtape.andywynkoop.com)
